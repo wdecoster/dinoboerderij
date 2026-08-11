@@ -1,0 +1,12 @@
+{
+  "name": "leesspel",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Dinoboerderij — Nederlandse leesspelletjes, draait in de browser, geen build-stap.",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "emoji": "node tools/haal-emoji.mjs",
+    "iconen": "node tools/maak-iconen.mjs"
+  }
+}

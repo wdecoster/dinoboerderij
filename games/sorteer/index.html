@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Sorteren — Dinoboerderij</title>
+    <link rel="stylesheet" href="../../css/base.css" />
+    <link rel="manifest" href="../../manifest.webmanifest" />
+    <link rel="icon" href="../../assets/icon-192.png" />
+    <meta name="theme-color" content="#fdf6e3" />
+  </head>
+  <body>
+    <main class="spel">
+      <canvas id="doek" class="spel__doek" aria-label="Sorteerspel"></canvas>
+    </main>
+
+    <button id="pauzeknop" class="knop knop--stil terug" type="button" hidden>pauze</button>
+
+    <!-- startscherm -->
+    <section id="laag-start" class="laag">
+      <h1 class="laag__titel">Sorteren</h1>
+      <p class="laag__regel">Welke letters wil je oefenen?</p>
+      <div id="parenlijst" class="paren"></div>
+      <p id="geen-woorden" class="laag__regel" hidden>
+        Er staan geen woorden aan. Kies er een paar bij de woorden.
+      </p>
+      <button id="spelen" class="knop knop--groot" type="button">Spelen</button>
+      <button id="dinoknop" class="knop knop--stil" type="button">mijn dino's</button>
+      <button id="woordenknop" class="knop knop--stil" type="button">woorden</button>
+      <a class="knop knop--stil" href="../../index.html">terug naar het menu</a>
+    </section>
+
+    <!-- woordenlijst: voor de ouder, om plaatjes uit te zetten die hij anders noemt -->
+    <section id="laag-woorden" class="laag" hidden>
+      <h2 class="laag__titel">Woorden</h2>
+      <p class="laag__regel">
+        Tik een plaatje aan om het uit of aan te zetten. Zet uit wat hij anders noemt.
+      </p>
+      <ul id="woordenlijst" class="woordenlijst"></ul>
+      <button id="woorden-klaar" class="knop" type="button">Klaar</button>
+      <a class="knop knop--stil" href="../../index.html">terug naar het menu</a>
+    </section>
+
+
+    <!-- de gedeelde dinoverzameling -->
+    <section id="laag-dinos" class="laag" hidden>
+      <h2 class="laag__titel">Mijn dino's</h2>
+      <p id="dinoregel" class="laag__regel"></p>
+      <ul id="dinolijst" class="dinolijst"></ul>
+      <button id="dinos-klaar" class="knop" type="button">Klaar</button>
+      <a class="knop knop--stil" href="../../index.html">terug naar het menu</a>
+    </section>
+
+    <!-- pauze -->
+    <section id="laag-pauze" class="laag" hidden>
+      <h2 class="laag__titel">Even pauze</h2>
+      <button id="verder" class="knop knop--groot" type="button">Verder spelen</button>
+      <button id="stoppen" class="knop knop--stil" type="button">stoppen</button>
+      <a class="knop knop--stil" href="../../index.html">terug naar het menu</a>
+    </section>
+
+    <!-- einde -->
+    <section id="laag-klaar" class="laag" hidden>
+      <h2 class="laag__titel">Klaar!</h2>
+      <p id="eindscore" class="laag__score">0</p>
+      <p id="eindregel" class="laag__regel"></p>
+      <button id="opnieuw" class="knop knop--groot" type="button">Nog een keer</button>
+      <button id="naar-menu" class="knop knop--stil" type="button">andere letters</button>
+      <a class="knop knop--stil" href="../../index.html">terug naar het menu</a>
+    </section>
+
+    <script type="module" src="./sorteer.js"></script>
+  </body>
+</html>

@@ -1,0 +1,558 @@
+/* Gedeelde stijl voor de hub en alle spelletjes.
+   Uitgangspunten: grote aanraakvlakken, weinig tekst, rustige kleuren,
+   en altijd de letter als drager van de betekenis (kleur is versiering). */
+
+:root {
+  --creme: #fdf6e3;
+  --papier: #fffdf7;
+  --inkt: #16324f;
+  --inkt-zacht: #5b7590;
+  --links: #2f80ed; /* kleur van de linkerbak */
+  --rechts: #e87a1e; /* kleur van de rechterbak */
+  --goed: #27ae60;
+  --fout: #eb5757;
+  --rand: #e4d9bd;
+  --schaduw: 0 2px 0 rgba(22, 50, 79, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* .knop en .laag zetten allebei een display, en die wint van de standaard van
+   het hidden-attribuut. Zonder deze regel blijft een verborgen knop staan. */
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--creme);
+  color: var(--inkt);
+  font-family: ui-rounded, "Segoe UI", Ubuntu, system-ui, -apple-system, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+h1,
+h2 {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+/* --- knoppen ------------------------------------------------------------ */
+
+.knop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 3.25rem;
+  padding: 0.75rem 1.75rem;
+  border: 2px solid var(--inkt);
+  border-radius: 999px;
+  background: var(--papier);
+  color: var(--inkt);
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--schaduw);
+  touch-action: manipulation;
+}
+
+.knop:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.knop--groot {
+  font-size: 1.6rem;
+  padding: 1rem 2.5rem;
+  min-height: 4rem;
+}
+
+.knop--stil {
+  border-color: var(--rand);
+  color: var(--inkt-zacht);
+  font-size: 1rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.25rem;
+  box-shadow: none;
+}
+
+/* --- hub ---------------------------------------------------------------- */
+
+.hub {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.hub__titel {
+  font-size: clamp(2rem, 7vw, 3rem);
+  text-align: center;
+}
+
+.hub__onder {
+  text-align: center;
+  color: var(--inkt-zacht);
+  margin: 0.5rem 0 2rem;
+  font-size: 1.05rem;
+}
+
+.hub__kudde {
+  text-align: center;
+  margin: 2rem 0 0;
+}
+
+.tegels {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* De <li> rekt mee met de rij, maar de tegel erbinnen deed dat niet: een tegel
+   met een regel meer tekst werd daardoor hoger dan de rest. */
+.tegels > li {
+  display: flex;
+}
+
+.tegel {
+  flex: 1;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem 1.25rem;
+  border: 2px solid var(--inkt);
+  border-radius: 1.5rem;
+  background: var(--papier);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 4px 0 rgba(22, 50, 79, 0.18);
+  text-align: center;
+}
+
+.tegel:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(22, 50, 79, 0.18);
+}
+
+.tegel__plaatje {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+.tegel__naam {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.tegel__uitleg {
+  color: var(--inkt-zacht);
+  font-size: 1rem;
+}
+
+/* --- spel-omhulsel ------------------------------------------------------ */
+
+.spel {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Het speelveld is altijd staand en gecentreerd: op een breed scherm krijgen
+   we zo geen absurd wijde baan tussen de bakken. */
+.spel__doek {
+  display: block;
+  height: 100%;
+  width: min(100vw, 78vh);
+  background: var(--papier);
+  touch-action: none;
+}
+
+/* Veldspellen zijn liggend: altijd 3:2, zodat het speelveld op elk scherm
+   dezelfde verhoudingen heeft en er niets buiten beeld valt. */
+.spel__doek--veld {
+  width: min(100vw, 150vh);
+  height: min(66.667vw, 100vh);
+}
+
+/* --- overlays (start, game over, woordenlijst) -------------------------- */
+
+.laag {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background: rgba(253, 246, 227, 0.94);
+  text-align: center;
+  overflow-y: auto;
+}
+
+.laag[hidden] {
+  display: none;
+}
+
+.laag__titel {
+  font-size: clamp(1.75rem, 6vw, 2.75rem);
+}
+
+.laag__regel {
+  color: var(--inkt-zacht);
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.laag__score {
+  font-size: clamp(3rem, 14vw, 5rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.terug {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 5;
+}
+
+/* --- letterparen kiezen ------------------------------------------------- */
+
+.paren {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.paar {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35em;
+  padding: 1rem 1.75rem;
+  border: 3px solid var(--inkt);
+  border-radius: 1.25rem;
+  background: var(--papier);
+  font-size: 2.5rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--schaduw);
+  touch-action: manipulation;
+}
+
+.paar[aria-pressed="true"] {
+  background: var(--inkt);
+  color: var(--papier);
+}
+
+/* "vanzelf" is een woord, geen losse letter — dat past niet op letterformaat */
+.paar--woord {
+  font-size: 1.35rem;
+}
+
+.paar__links {
+  color: var(--links);
+}
+.paar__rechts {
+  color: var(--rechts);
+}
+.paar[aria-pressed="true"] .paar__links,
+.paar[aria-pressed="true"] .paar__rechts {
+  color: var(--papier);
+}
+
+/* --- woordenlijst (voor de ouder) --------------------------------------- */
+
+.woordenlijst {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  gap: 0.75rem;
+  width: min(48rem, 100%);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.woord {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.75rem 0.5rem;
+  border: 2px solid var(--rand);
+  border-radius: 1rem;
+  background: var(--papier);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.woord[aria-pressed="false"] {
+  opacity: 0.35;
+  filter: grayscale(1);
+}
+
+.woord img {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+
+.woord__naam {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.laag__hint {
+  color: var(--inkt-zacht);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* --- rijmparen ---------------------------------------------------------- */
+
+.woordenlijst--breed {
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+}
+
+/* Een rijmpaar is één knop met twee plaatjes: ze horen bij elkaar, dus je zet
+   ze ook samen aan of uit. */
+.rijmpaar {
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.rijmpaar__helft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* --- woordbouwer -------------------------------------------------------- */
+
+/* De kudde loopt achter het spel langs; hij mag nooit een tik onderscheppen. */
+.parade {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.parade__dino {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 46px;
+  will-change: transform;
+}
+
+.bouw__midden {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.75rem, 2.5vh, 1.75rem);
+}
+
+.bouw {
+  z-index: 1;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2.5vh, 1.75rem);
+  padding: 1rem;
+}
+
+.bouw__ei {
+  position: relative;
+  height: clamp(4rem, 13vh, 7rem);
+  display: grid;
+  place-items: center;
+}
+
+.bouw__eiplaatje,
+.bouw__dino {
+  height: clamp(4rem, 13vh, 7rem);
+  width: auto;
+}
+
+/* Het ei wiebelt steeds harder naarmate er meer letters staan: hij ziet dat er
+   iets staat te gebeuren nog voordat het woord af is. */
+.bouw__eiplaatje--stap1 { animation: wiebel 1.4s ease-in-out infinite; }
+.bouw__eiplaatje--stap2 { animation: wiebel 1s ease-in-out infinite; }
+.bouw__eiplaatje--stap3 { animation: wiebel 0.7s ease-in-out infinite; }
+.bouw__eiplaatje--stap4 { animation: wiebel 0.45s ease-in-out infinite; }
+.bouw__eiplaatje--stap5 { animation: wiebel 0.3s ease-in-out infinite; }
+
+@keyframes wiebel {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
+}
+
+.bouw__dino--uit {
+  animation: springErUit 0.6s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+
+@keyframes springErUit {
+  0% { transform: scale(0.2) translateY(1rem); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.bouw__plaatje {
+  height: clamp(6rem, 22vh, 12rem);
+  width: auto;
+}
+
+.bouw__hint {
+  color: var(--inkt-zacht);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* de lege plekken waar het woord komt */
+.vakjes,
+.letters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.vakje {
+  display: grid;
+  place-items: center;
+  width: clamp(2.75rem, 9vw, 4rem);
+  height: clamp(3.25rem, 11vw, 4.75rem);
+  border: 3px dashed var(--rand);
+  border-radius: 0.9rem;
+  background: var(--papier);
+  font-size: clamp(1.75rem, 6vw, 2.75rem);
+  font-weight: 800;
+  color: var(--inkt);
+}
+
+.vakje--vol {
+  border-style: solid;
+  border-color: var(--goed);
+  animation: klap 0.25s ease-out;
+}
+
+@keyframes klap {
+  0% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+.letter {
+  width: clamp(2.75rem, 9vw, 4rem);
+  height: clamp(3.25rem, 11vw, 4.75rem);
+  border: 3px solid var(--inkt);
+  border-radius: 0.9rem;
+  background: var(--papier);
+  color: var(--inkt);
+  font: inherit;
+  font-size: clamp(1.75rem, 6vw, 2.75rem);
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(22, 50, 79, 0.2);
+  touch-action: manipulation;
+}
+
+.letter:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+/* Een gebruikte letter blijft staan — een gat in de rij zou de volgorde
+   verklappen en het is rustiger als er niets verspringt. */
+.letter--op {
+  visibility: hidden;
+}
+
+.letter--mis {
+  animation: misschud 0.35s ease-in-out;
+  border-color: var(--fout);
+  color: var(--fout);
+}
+
+@keyframes misschud {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-0.4rem); }
+  40% { transform: translateX(0.4rem); }
+  60% { transform: translateX(-0.25rem); }
+  80% { transform: translateX(0.25rem); }
+}
+
+.letter--hint {
+  border-color: var(--goed);
+  color: var(--goed);
+  animation: wenk 0.9s ease-in-out infinite;
+}
+
+@keyframes wenk {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-0.4rem); }
+}
+
+/* --- dinoverzameling ---------------------------------------------------- */
+
+.dinolijst {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  gap: 0.75rem;
+  width: min(48rem, 100%);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dino {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.6rem 0.4rem;
+  border: 2px solid var(--rand);
+  border-radius: 1rem;
+  background: var(--papier);
+}
+
+.dino img {
+  width: 3rem;
+  height: 3rem;
+}
+
+.dino__naam {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--inkt-zacht);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

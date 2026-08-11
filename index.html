@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Dinoboerderij</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="assets/icon-192.png" />
+    <meta name="theme-color" content="#fdf6e3" />
+    <meta name="description" content="Nederlandse leesspelletjes voor kinderen met dyslexie." />
+  </head>
+  <body>
+    <main class="hub">
+      <h1 class="hub__titel">Dinoboerderij</h1>
+      <p class="hub__onder">Speel een spel en verdien dino’s voor je kudde</p>
+      <ul id="tegels" class="tegels"></ul>
+
+      <p class="hub__kudde">
+        <button id="dinoknop" class="knop knop--stil" type="button">mijn dino's</button>
+      </p>
+    </main>
+
+    <!-- de verzameling, gevuld uit alle drie de spellen -->
+    <section id="laag-dinos" class="laag" hidden>
+      <h2 class="laag__titel">Mijn dino's</h2>
+      <p id="dinoregel" class="laag__regel"></p>
+      <ul id="dinolijst" class="dinolijst"></ul>
+      <button id="dinos-klaar" class="knop" type="button">Klaar</button>
+    </section>
+
+    <script type="module" src="js/hub.js"></script>
+  </body>
+</html>

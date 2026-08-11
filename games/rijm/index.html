@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Rijmen — Dinoboerderij</title>
+    <link rel="stylesheet" href="../../css/base.css" />
+    <link rel="manifest" href="../../manifest.webmanifest" />
+    <link rel="icon" href="../../assets/icon-192.png" />
+    <meta name="theme-color" content="#fdf6e3" />
+  </head>
+  <body>
+    <main class="spel">
+      <canvas id="doek" class="spel__doek spel__doek--veld" aria-label="Rijmspel"></canvas>
+    </main>
+
+    <button id="pauzeknop" class="knop knop--stil terug" type="button" hidden>pauze</button>
+
+    <!-- startscherm -->
+    <section id="laag-start" class="laag">
+      <h1 class="laag__titel">Rijmen</h1>
+      <p class="laag__regel">Breng elk ding naar het ding waarop het rijmt.</p>
+      <p class="laag__regel">Hoeveel paren?</p>
+      <div id="aantallen" class="paren"></div>
+      <p id="geen-paren" class="laag__regel" hidden>
+        Er staan te weinig rijmparen aan. Zet er een paar bij.
+      </p>
+      <button id="spelen" class="knop knop--groot" type="button">Spelen</button>
+      <p class="laag__regel laag__hint">Lopen doe je met de pijltjestoetsen ← ↑ → ↓</p>
+      <button id="dinoknop" class="knop knop--stil" type="button">mijn dino's</button>
+      <button id="parenknop" class="knop knop--stil" type="button">rijmparen</button>
+      <a class="knop knop--stil" href="../../index.html">terug naar het menu</a>
+    </section>
+
+    <!-- rijmlijst: voor de ouder, om paren uit te zetten die hij anders noemt -->
+    <section id="laag-paren" class="laag" hidden>
+      <h2 class="laag__titel">Rijmparen</h2>
+      <p class="laag__regel">
+        Tik een paar aan om het uit of aan te zetten. Zet uit wat hij anders noemt.
+      </p>
+      <ul id="parenlijst" class="woordenlijst woordenlijst--breed"></ul>
+      <button id="paren-klaar" class="knop" type="button">Klaar</button>
+      <a class="knop knop--stil" href="../../index.html">terug naar het menu</a>
+    </section>
+
+
+    <!-- de gedeelde dinoverzameling -->
+    <section id="laag-dinos" class="laag" hidden>
+      <h2 class="laag__titel">Mijn dino's</h2>
+      <p id="dinoregel" class="laag__regel"></p>
+      <ul id="dinolijst" class="dinolijst"></ul>
+      <button id="dinos-klaar" class="knop" type="button">Klaar</button>
+      <a class="knop knop--stil" href="../../index.html">terug naar het menu</a>
+    </section>
+
+    <!-- pauze -->
+    <section id="laag-pauze" class="laag" hidden>
+      <h2 class="laag__titel">Even pauze</h2>
+      <button id="verder" class="knop knop--groot" type="button">Verder spelen</button>
+      <button id="stoppen" class="knop knop--stil" type="button">stoppen</button>
+      <a class="knop knop--stil" href="../../index.html">terug naar het menu</a>
+    </section>
+
+    <!-- gewonnen -->
+    <section id="laag-klaar" class="laag" hidden>
+      <h2 class="laag__titel">Alles gevonden!</h2>
+      <p id="eindtijd" class="laag__score">0</p>
+      <p id="eindregel" class="laag__regel"></p>
+      <button id="opnieuw" class="knop knop--groot" type="button">Nog een keer</button>
+      <button id="naar-menu" class="knop knop--stil" type="button">ander aantal</button>
+      <a class="knop knop--stil" href="../../index.html">terug naar het menu</a>
+    </section>
+
+    <script type="module" src="./rijm.js"></script>
+  </body>
+</html>
