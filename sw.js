@@ -4,7 +4,7 @@
 //
 // Nieuwe versie uitrollen = VERSIE hieronder ophogen.
 
-const VERSIE = 'v12';
+const VERSIE = 'v13';
 const CACHE = `leesspel-${VERSIE}`;
 
 // De schil: alles wat nodig is om de hub en de spellen te starten.
@@ -29,6 +29,7 @@ const SCHIL = [
   'js/core/viewport.js',
   'js/core/plaatjes.js',
   'js/core/verzameling.js',
+  'js/core/vieren.js',
   'js/core/knoppen.js',
   'games/sorteer/',
   'games/sorteer/index.html',

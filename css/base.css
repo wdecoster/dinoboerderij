@@ -506,6 +506,12 @@ h2 {
   animation: wiebel 0.35s ease-in-out 3;
 }
 
+.bouw__dinonaam {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
 .bouw__plaatje {
   height: clamp(6rem, 22vh, 12rem);
   width: auto;
@@ -599,6 +605,111 @@ h2 {
 @keyframes wenk {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-0.4rem); }
+}
+
+/* --- de dino-viering --------------------------------------------------- */
+
+/* Ligt over alles heen maar vangt geen tikken: het is een moment, geen scherm
+   dat je moet wegklikken. Het waas eronder zorgt dat de dino ook op een druk
+   speelveld goed te zien is. */
+.viering {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  pointer-events: none;
+  background: rgba(253, 246, 227, 0.82);
+  animation: vieringWaas 2.4s ease-in-out forwards;
+}
+
+@keyframes vieringWaas {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* De loper verplaatst zich; het beest erin wiebelt. Twee lagen, anders vechten
+   de animaties om dezelfde transform. Naar links, want de Twemoji-dieren kijken
+   die kant op — naar rechts lopen ze achteruit. */
+.viering__loper {
+  position: relative;
+  animation: vieringLoopWeg 2.4s ease-in forwards;
+}
+
+@keyframes vieringLoopWeg {
+  0% { transform: translateX(0) scale(0.3); opacity: 0; }
+  10% { transform: translateX(0) scale(1.12); opacity: 1; }
+  16% { transform: translateX(0) scale(1); }
+  45% { transform: translateX(0) scale(1); }
+  100% { transform: translateX(-70vw) scale(0.85); opacity: 0; }
+}
+
+.viering__beest {
+  display: block;
+  width: clamp(6.5rem, 26vh, 11rem);
+  height: clamp(6.5rem, 26vh, 11rem);
+  animation: vieringStap 0.42s ease-in-out infinite;
+}
+
+/* stappen: een klein wipje, alsof hij loopt */
+@keyframes vieringStap {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-0.5rem) rotate(3deg); }
+}
+
+.viering__naam {
+  margin: 0;
+  font-size: clamp(1.3rem, 5vw, 2rem);
+  font-weight: 800;
+  animation: vieringTekst 2.4s ease-in-out forwards;
+}
+
+.viering__waarheen {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--inkt-zacht);
+  animation: vieringTekst 2.4s ease-in-out forwards;
+}
+
+@keyframes vieringTekst {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  50% { opacity: 1; }
+  70% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.viering__vonk {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--goed);
+  transform: rotate(var(--hoek)) translateY(-2rem);
+  animation: vieringVonk 0.9s ease-out forwards;
+}
+
+@keyframes vieringVonk {
+  0% { transform: rotate(var(--hoek)) translateY(-2rem) scale(0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: rotate(var(--hoek)) translateY(-7rem) scale(0.4); opacity: 0; }
+}
+
+/* Wie liever geen beweging ziet, krijgt hem gewoon even stil in beeld. */
+@media (prefers-reduced-motion: reduce) {
+  .viering__loper,
+  .viering__beest,
+  .viering__vonk {
+    animation: none;
+  }
+  .viering__vonk { display: none; }
 }
 
 /* --- dino's voeren ------------------------------------------------------ */

@@ -51,6 +51,7 @@ const el = {
   woordenlijst: document.getElementById('woordenlijst'),
   woordenKlaar: document.getElementById('woorden-klaar'),
   eipips: document.getElementById('eipips'),
+  dinonaam: document.getElementById('dinonaam'),
 };
 
 const lagen = {
@@ -157,6 +158,7 @@ function nieuwWoord() {
   el.ei.hidden = false;
   el.ei.className = 'bouw__eiplaatje';
   el.dino.hidden = true;
+  el.dinonaam.hidden = true;
 
   bouwVakjes();
   bouwLetters();
@@ -252,6 +254,8 @@ function gelukt() {
     el.dino.classList.remove('bouw__dino--uit');
     void el.dino.offsetWidth;
     el.dino.classList.add('bouw__dino--uit');
+    el.dinonaam.textContent = `een ${dino.soort.naam}!`;
+    el.dinonaam.hidden = false;
   } else {
     // Nog niet uit, maar het ei schudt wel: er zit duidelijk iets in.
     el.ei.classList.remove('bouw__eiplaatje--wiebel');

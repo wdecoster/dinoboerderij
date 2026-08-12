@@ -21,6 +21,7 @@ import {
   LENGTES,
 } from '../../js/data/spelwoorden.js';
 import { verdienDino, leesVerzameling, tintFilter } from '../../js/core/verzameling.js';
+import { vierDino, VIERTIJD } from '../../js/core/vieren.js';
 import { SOORTEN, TINTEN } from '../../js/data/dinos.js';
 import { GOED_PER_DINO, niveauVoor, MAX_GEHEUGEN, STANDAARD_LENGTE } from './config.js';
 
@@ -211,14 +212,19 @@ function probeer(kandidaat, knop) {
   el.dino.classList.add('voeren__beest--hap');
   werkPipsBij(goed);
 
+  // Bij de vijfde: laat zien wát je verdiend hebt. De stipjes liepen vol en
+  // waren daarna weer leeg, en daartussen zag je niets.
   const komtErEen = goed % GOED_PER_DINO === 0;
-  if (komtErEen) verdienDino();
+  if (komtErEen) vierDino(verdienDino());
 
-  setTimeout(() => {
-    if (!lagen.start.hidden || !lagen.woorden.hidden) return;
-    spel.bezig = true;
-    nieuweRonde();
-  }, komtErEen ? 1300 : 800);
+  setTimeout(
+    () => {
+      if (!lagen.start.hidden || !lagen.woorden.hidden) return;
+      spel.bezig = true;
+      nieuweRonde();
+    },
+    komtErEen ? VIERTIJD : 800
+  );
 }
 
 /** Stipjes: hoeveel keer goed tot de volgende dino? */

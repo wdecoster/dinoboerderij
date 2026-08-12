@@ -138,6 +138,12 @@ Alle vier de spellen vullen dezelfde kudde:
 | Woordbouwer | elke drie woorden die af komen |
 | Dino's voeren | elke vijf keer goed |
 
+**Als je er een verdient, zie je hem.** Hij komt groot in beeld, laat zien wie
+hij is, en loopt dan het scherm uit richting de boerderij. Dat is voor een kind
+veel duidelijker dan stipjes die vollopen en daarna weer leeg zijn. Sorteren
+staat zolang stil, zodat er niets doorvalt terwijl hij kijkt; de andere spellen
+wachten toch al op de volgende beurt.
+
 Negen soorten (langnek, t-rex, draak, drakenkop, hagedis, krokodil, schildpad,
 mammoet, dodo) in acht kleuren, dus 72 verschillende beesten. De kleur wordt met
 `hue-rotate` uit hetzelfde plaatje gedraaid en kost dus geen extra bestand. In de
@@ -266,8 +272,8 @@ sw.js                   offline kunnen spelen
 tekenassen), `loop.js` (vaste tijdstap), `input.js` (tikken en links/rechts),
 `toetsen.js` (ingedrukte pijltjes), `storage.js` (onthouden), `plaatjes.js`
 (plaatjes vooraf laden), `pad.js` (paden vanaf de site-root), `ui.js` (schermen),
-`knoppen.js` (de icoontjes op de knoppen) en `verzameling.js` (de gedeelde
-kudde).
+`knoppen.js` (de icoontjes op de knoppen), `verzameling.js` (de gedeelde kudde)
+en `vieren.js` (het moment waarop je een dino verdient).
 
 ## Een spel toevoegen
 

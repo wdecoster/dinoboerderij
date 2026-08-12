@@ -20,6 +20,7 @@ import {
   kiesParenZonderKruisrijm,
 } from '../../js/data/rijmparen.js';
 import { verdienDino } from '../../js/core/verzameling.js';
+import { vierDino } from '../../js/core/vieren.js';
 import { maakNiveau } from './veld.js';
 import {
   VELD,
@@ -280,6 +281,7 @@ function gewonnen() {
 
   // Alles gevonden levert een dino op, dezelfde kudde als in de andere spellen.
   const dino = verdienDino();
+  vierDino(dino);
 
   el.eindtijd.textContent = `${seconden} sec`;
   el.eindregel.textContent =
