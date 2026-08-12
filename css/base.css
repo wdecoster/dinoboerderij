@@ -601,6 +601,119 @@ h2 {
   50% { transform: translateY(-0.4rem); }
 }
 
+/* --- dino's voeren ------------------------------------------------------ */
+
+.voeren {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 4vh, 2.5rem);
+  padding: 1rem;
+}
+
+.voeren__dino {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Het denkwolkje met het woord erin. Het staartje is een gedraaid vierkantje. */
+.wolkje {
+  position: relative;
+  margin: 0;
+  padding: 0.7em 1.4em;
+  border: 3px solid var(--inkt);
+  border-radius: 1.5rem;
+  background: var(--papier);
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: 0.06em; /* iets meer lucht tussen de letters leest rustiger */
+  box-shadow: var(--schaduw);
+}
+
+.wolkje::after {
+  content: "";
+  position: absolute;
+  bottom: -0.55rem;
+  left: 50%;
+  width: 1rem;
+  height: 1rem;
+  transform: translateX(-50%) rotate(45deg);
+  border-right: 3px solid var(--inkt);
+  border-bottom: 3px solid var(--inkt);
+  background: var(--papier);
+}
+
+.voeren__beest {
+  height: clamp(4.5rem, 15vh, 8rem);
+  width: auto;
+}
+
+.voeren__beest--hap {
+  animation: hap 0.5s ease-out;
+}
+
+@keyframes hap {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.25) rotate(-5deg); }
+  70% { transform: scale(0.95) rotate(4deg); }
+  100% { transform: scale(1); }
+}
+
+.voeren__hint {
+  color: var(--inkt-zacht);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* de plank met dingen om te geven */
+.keuzes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.5rem, 2vw, 1.25rem);
+}
+
+.keuze {
+  display: grid;
+  place-items: center;
+  width: clamp(5rem, 18vw, 8rem);
+  height: clamp(5rem, 18vw, 8rem);
+  border: 3px solid var(--inkt);
+  border-radius: 1.25rem;
+  background: var(--papier);
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(22, 50, 79, 0.2);
+  touch-action: manipulation;
+}
+
+.keuze:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+.keuze img {
+  width: 72%;
+  height: 72%;
+}
+
+.keuze--mis {
+  animation: misschud 0.35s ease-in-out;
+  border-color: var(--fout);
+}
+
+.keuze--op {
+  animation: naarDeDino 0.5s ease-in forwards;
+}
+
+@keyframes naarDeDino {
+  to { transform: translateY(-3rem) scale(0.2); opacity: 0; }
+}
+
 /* --- dinoverzameling ---------------------------------------------------- */
 
 .dinolijst {

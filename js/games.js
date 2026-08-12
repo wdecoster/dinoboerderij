@@ -23,4 +23,11 @@ export const spellen = [
     icoon: '1f95a', // ei
     pad: 'games/bouw/',
   },
+  {
+    id: 'voeren',
+    naam: "Dino's voeren",
+    uitleg: 'Lees het woord en geef je dino het goede ding.',
+    icoon: '1f34e', // appel
+    pad: 'games/voeren/',
+  },
 ];

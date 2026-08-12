@@ -2,7 +2,7 @@
 
 Nederlandse leesspelletjes voor kinderen met dyslexie.
 
-Drie spellen die elk een ander stukje van leren lezen oefenen, met één beloning
+Vier spellen die elk een ander stukje van leren lezen oefenen, met één beloning
 die ze aan elkaar knoopt: je verdient dino's voor je kudde. Draait in de browser,
 dus op Linux, Windows en Android met dezelfde code. **Geen build-stap, geen
 framework, geen dependencies.** Wat in de map staat, is de site.
@@ -103,6 +103,30 @@ op dat moment geldt.
 
 Alleen klankzuivere woorden — die je schrijft zoals je ze zegt.
 
+### Dino's voeren — van letters naar betekenis
+
+Een van je eigen dino's verschijnt met een denkwolkje waar een woord in staat.
+Op de plank liggen een paar dingen; geef het goede en hij eet het op.
+
+Dit is het enige spel waarin een woord echt gelézen moet worden. De Woordbouwer
+gaat van klank naar letters; dit gaat de andere kant op, en dat is wat lezen
+uiteindelijk is.
+
+De moeilijkheid zit niet in het woord maar in de afleiders, en die lopen mee met
+wat hij kan:
+
+| Niveau | De andere dingen | Wat je moet doen |
+|---|---|---|
+| begin | `kat` naast `boom` en `vis` | de eerste letter herkennen |
+| midden | `kat` naast `kip` en `koe` | verder lezen dan de eerste letter |
+| later | `boom` naast `boot` en `boek` | het woord tot het eind uitlezen |
+
+Zo begint het bij wat hij al kan en eindigt het bij `oog`/`oor`, `hand`/`mand`,
+`bed`/`bel`. Fout kost niets: het ding wiebelt en blijft liggen. Elke vijf keer
+goed komt er een dino bij.
+
+Werkt met tikken, dus ook op een tablet.
+
 ## De dino's
 
 Alle drie de spellen vullen dezelfde kudde:
@@ -112,6 +136,7 @@ Alle drie de spellen vullen dezelfde kudde:
 | Sorteren | elke vijf goede antwoorden |
 | Rijmen | een veld helemaal uitspelen |
 | Woordbouwer | elke drie woorden die af komen |
+| Dino's voeren | elke vijf keer goed |
 
 Negen soorten (langnek, t-rex, draak, drakenkop, hagedis, krokodil, schildpad,
 mammoet, dodo) in acht kleuren, dus 72 verschillende beesten. De kleur wordt met
@@ -240,8 +265,9 @@ kudde).
 
 Er is geen testrunner; wel twee dingen die je los kunt draaien:
 
-- `games/rijm/?test`, `games/bouw/?test` en `boerderij/?test` zetten hun staat op
-  `window.__rijm`, `window.__bouw` en `window.__boerderij`, zodat je van
+- `games/rijm/?test`, `games/bouw/?test`, `games/voeren/?test` en
+  `boerderij/?test` zetten hun staat op `window.__rijm`, `window.__bouw`,
+  `window.__voeren` en `window.__boerderij`, zodat je van
   buitenaf kunt nakijken of oppakken, rijmen, afleiders en de rondlopende kudde
   doen wat ze moeten doen. Zonder die parameter gebeurt er niets.
 - De niveaugenerator van Rijmen (`games/rijm/veld.js`) garandeert dat elk veld

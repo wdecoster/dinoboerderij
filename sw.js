@@ -4,7 +4,7 @@
 //
 // Nieuwe versie uitrollen = VERSIE hieronder ophogen.
 
-const VERSIE = 'v9';
+const VERSIE = 'v10';
 const CACHE = `leesspel-${VERSIE}`;
 
 // De schil: alles wat nodig is om de hub en de spellen te starten.
@@ -44,6 +44,10 @@ const SCHIL = [
   'games/bouw/bouw.js',
   'games/bouw/config.js',
   'games/bouw/parade.js',
+  'games/voeren/',
+  'games/voeren/index.html',
+  'games/voeren/voeren.js',
+  'games/voeren/config.js',
   'boerderij/',
   'boerderij/index.html',
   'boerderij/boerderij.js',
