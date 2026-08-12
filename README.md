@@ -84,12 +84,15 @@ te liggen, want dat is precies de verwarring die geoefend wordt.
 
 Er zitten drie woorden in één ei: de stipjes eronder laten zien hoe ver het is.
 Geen tijd, geen score. Een verkeerde letter schudt en blijft liggen; na drie
-misgrepen gaat de goede letter wenken. Hetzelfde woord komt niet snel terug —
-het spel onthoudt de laatste acht. Met de knop **vanzelf** kiest het spel zelf de woordlengte en wordt het langzaam
+misgrepen gaat de goede letter wenken. Hetzelfde woord komt niet snel terug — het
+spel onthoudt de laatste acht.
+
+Met de knop **vanzelf** kiest het spel zelf de woordlengte en wordt het langzaam
 moeilijker naarmate er meer woorden goed gaan: van drie letters zonder afleiders
 tot vijf letters met drie afleiders. Je kunt de lengte ook vastzetten op 3, 4 of
-5. Op het startscherm staat in gewone taal wat er op dat moment geldt. Alleen klankzuivere woorden — die je schrijft zoals
-je ze zegt.
+5. Op het startscherm staat in gewone taal wat er op dat moment geldt.
+
+Alleen klankzuivere woorden — die je schrijft zoals je ze zegt.
 
 ## De dino's
 
