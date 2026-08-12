@@ -27,6 +27,21 @@
       <ul id="dinolijst" class="dinolijst"></ul>
       <button id="lijst-klaar" class="knop" type="button" data-icoon="2705">Klaar</button>
       <a class="knop knop--stil" href="../index.html" data-icoon="1f3e0">terug naar het menu</a>
+      <!-- staat bewust onderaan en stil: dit is een knop voor de ouder -->
+      <button id="wisknop" class="knop knop--stil knop--gevaar" type="button" data-icoon="1f5d1">
+        alle dino's wissen
+      </button>
+    </section>
+
+    <!-- eerst even navragen: wissen kan niet ongedaan gemaakt worden -->
+    <section id="laag-wissen" class="laag" hidden>
+      <h2 class="laag__titel">Alle dino's wissen?</h2>
+      <p id="wisregel" class="laag__regel"></p>
+      <p class="laag__regel laag__hint">Dit kan niet ongedaan gemaakt worden.</p>
+      <button id="wis-nee" class="knop knop--groot" type="button" data-icoon="2705">Nee, bewaren</button>
+      <button id="wis-ja" class="knop knop--stil knop--gevaar" type="button" data-icoon="1f5d1">
+        Ja, alles wissen
+      </button>
     </section>
 
     <!-- nog geen dino's -->

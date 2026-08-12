@@ -30,7 +30,12 @@ export const MONSTER = {
   cps: ['1f47b', '1f47e', '1f916'], // spook, monster, robot
   tinten: [0, 40, 85, 140, 190, 240, 290, 320], // graden hue-rotate
   straal: 4,
-  snelheid: 24, // langzamer dan de speler: wegkomen moet altijd kunnen
+  // Langzamer dan de speler (34), zodat wegkomen altijd kan. Met pijltjes sturen
+  // is voor een beginner al werk genoeg; dit is de knop om aan te draaien als
+  // het te spannend is.
+  snelheid: 20,
+  // Als je niets draagt slenteren ze wat rond in plaats van op je af te komen.
+  wandelSnelheid: 11,
   maat: 10,
   bevriesTijd: 2, // seconden stilstand nadat hij je getikt heeft
   herberekenTijd: 0.3, // hoe vaak de route naar de speler opnieuw wordt bepaald
@@ -61,6 +66,10 @@ export const STANDAARD_AANTAL = 3;
 
 // Elke zoveelste fout komt er een monster bij.
 export const FOUTEN_PER_MONSTER = 3;
+
+// Staan de monsters aan? Uit te zetten op het startscherm: rijmen is op zichzelf
+// al genoeg, en wie nog met de pijltjes worstelt heeft er niets bij nodig.
+export const STANDAARD_MONSTERS = true;
 
 /** Alle vaste codepoints van dit spel (voor tools/haal-emoji.mjs). */
 export function spelCodepoints() {

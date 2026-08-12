@@ -9,7 +9,11 @@ import { laadPlaatje } from '../js/core/plaatjes.js';
 import { toonLaag, registreerServiceWorker } from '../js/core/ui.js';
 import { zetKnopIconen } from '../js/core/knoppen.js';
 import { vanWortel } from '../js/core/pad.js';
-import { leesVerzameling, vulDinolijst, tintFilter } from '../js/core/verzameling.js';
+import {
+  leesVerzameling,
+  vulDinolijst,
+  wisVerzameling,
+} from '../js/core/verzameling.js';
 import { SOORTEN } from '../js/data/dinos.js';
 
 const VELD = { breedte: 150, hoogte: 100 };
@@ -56,10 +60,15 @@ const el = {
   lijstKlaar: document.getElementById('lijst-klaar'),
   dinolijst: document.getElementById('dinolijst'),
   lijstregel: document.getElementById('lijstregel'),
+  wisknop: document.getElementById('wisknop'),
+  wisregel: document.getElementById('wisregel'),
+  wisJa: document.getElementById('wis-ja'),
+  wisNee: document.getElementById('wis-nee'),
 };
 
 const lagen = {
   lijst: document.getElementById('laag-lijst'),
+  wissen: document.getElementById('laag-wissen'),
   leeg: document.getElementById('laag-leeg'),
 };
 
@@ -313,37 +322,70 @@ el.lijstknop.addEventListener('click', () => {
 });
 el.lijstKlaar.addEventListener('click', () => toonLaag(lagen, null));
 
+// Wissen kan niet ongedaan gemaakt worden, dus er zit een scherm tussen. "Nee"
+// staat vooraan en is de grote knop; wissen is de stille.
+el.wisknop.addEventListener('click', () => {
+  const totaal = Object.values(leesVerzameling()).reduce((s, n) => s + n, 0);
+  el.wisregel.textContent =
+    totaal === 1 ? 'Je ene dino verdwijnt.' : `Al je ${totaal} dino's verdwijnen.`;
+  toonLaag(lagen, 'wissen');
+});
+
+el.wisNee.addEventListener('click', () => toonLaag(lagen, 'lijst'));
+
+el.wisJa.addEventListener('click', async () => {
+  wisVerzameling();
+  await toonKudde();
+});
+
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) lus.stop();
   else if (kudde.length > 0) lus.start();
 });
 
-// --- opstarten ------------------------------------------------------------
+// --- opstarten ---------------------------------------------------------
 
-zetKnopIconen();
-registreerServiceWorker();
-viewport.opWijziging = teken;
+/**
+ * Zet de wei klaar met wat er nu in de verzameling zit.
+ *
+ * Dit draait bij het laden én na het wissen, zodat de lege wei er meteen goed
+ * uitziet in plaats van pas na een herlaadbeurt.
+ */
+async function toonKudde() {
+  const telling = bouwKudde();
 
-const telling = bouwKudde();
-await laadPlaatjes([...DECOR.map((d) => d.cp), ...new Set(kudde.map((d) => d.cp))]);
+  if (telling.totaal === 0) {
+    lus.stop();
+    el.teller.hidden = true;
+    toonLaag(lagen, 'leeg');
+    teken();
+    return;
+  }
 
-if (telling.totaal === 0) {
-  toonLaag(lagen, 'leeg');
-  el.teller.hidden = true;
-} else {
+  await laadPlaatjes([...DECOR.map((d) => d.cp), ...new Set(kudde.map((d) => d.cp))]);
+
   const verborgen = telling.totaal - kudde.length;
+  el.teller.hidden = false;
   el.teller.textContent =
     `${telling.totaal} ${telling.totaal === 1 ? 'dino' : "dino's"} · ` +
     `${telling.soorten} ${telling.soorten === 1 ? 'soort' : 'soorten'} · ` +
     `${telling.varianten} ${telling.varianten === 1 ? 'kleur' : 'kleuren'}` +
     (verborgen > 0 ? ` — er lopen er ${kudde.length} in de wei` : '');
+
+  toonLaag(lagen, null);
   lus.start();
+  teken();
+  return telling;
 }
 
-teken();
+zetKnopIconen();
+registreerServiceWorker();
+viewport.opWijziging = teken;
+
+const telling = await toonKudde();
 
 // Testhaak, net als bij de spellen: met ?test in de URL kan een script nakijken
 // of de kudde echt rondloopt. Zonder die parameter gebeurt er niets.
 if (new URLSearchParams(location.search).has('test')) {
-  window.__boerderij = { kudde, lus, telling, WEI, VELD, DINO_MAAT };
+  window.__boerderij = { kudde, lus, telling, toonKudde, WEI, VELD, DINO_MAAT };
 }

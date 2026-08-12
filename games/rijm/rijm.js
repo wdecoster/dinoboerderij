@@ -29,6 +29,7 @@ import {
   VOORWERP,
   AANTALLEN,
   STANDAARD_AANTAL,
+  STANDAARD_MONSTERS,
   FOUTEN_PER_MONSTER,
 } from './config.js';
 
@@ -56,6 +57,7 @@ const el = {
   doek: document.getElementById('doek'),
   pauzeknop: document.getElementById('pauzeknop'),
   aantallen: document.getElementById('aantallen'),
+  monsterkeuze: document.getElementById('monsterkeuze'),
   spelen: document.getElementById('spelen'),
   geenParen: document.getElementById('geen-paren'),
   parenknop: document.getElementById('parenknop'),
@@ -99,6 +101,7 @@ const plaatjeVan = (cp) => plaatjes.get(cp) ?? null;
 
 const spel = {
   aantal: opslag.lees('aantal', STANDAARD_AANTAL),
+  monstersAan: opslag.lees('monsters', STANDAARD_MONSTERS),
   niveau: null,
   speler: { x: 0, y: 0, kijktLinks: false },
   draagt: null,
@@ -158,7 +161,7 @@ async function startSpel() {
   spel.speler = { ...spel.niveau.spelerStart, kijktLinks: false };
   spel.draagt = null;
   spel.monsters = []; // eerst leeg: nieuweMonster kijkt hierin om dubbele te vermijden
-  spel.monsters.push(nieuweMonster(spel.niveau.monsterStart));
+  if (spel.monstersAan) spel.monsters.push(nieuweMonster(spel.niveau.monsterStart));
   spel.afstandsveld = null;
   spel.herbereken = 0;
   spel.fouten = 0;
@@ -243,6 +246,7 @@ function nieuweMonster(plek, extra = {}) {
 }
 
 function zetMonsterBij() {
+  if (!spel.monstersAan) return;
   if (spel.monsters.length >= MONSTER.maximum) return;
   const plek = spel.niveau.veld.versteVrijePlek(spel.speler.x, spel.speler.y, MONSTER.straal);
   spel.monsters.push(nieuweMonster(plek, { verschijnt: 0.6 }));
@@ -396,17 +400,43 @@ function stap(dt) {
       continue;
     }
 
-    let richtingMonster = spel.afstandsveld
-      ? veld.stapRichting(spel.afstandsveld, monster.x, monster.y)
-      : null;
-    if (!richtingMonster) {
-      // geen route bekend: dan maar recht op de speler af
-      const dx = spel.speler.x - monster.x;
-      const dy = spel.speler.y - monster.y;
+    // Ze komen alleen op je af als je iets draagt. Zonder iets in je handen kun
+    // je dus rustig rondkijken en nadenken; het gevaar begint pas als je op weg
+    // bent. Dat maakt ook meteen zichtbaar waar het spel om draait.
+    const jaagt = spel.draagt !== null;
+    let richtingMonster = null;
+
+    if (jaagt) {
+      richtingMonster = spel.afstandsveld
+        ? veld.stapRichting(spel.afstandsveld, monster.x, monster.y)
+        : null;
+      if (!richtingMonster) {
+        // geen route bekend: dan maar recht op de speler af
+        const dx = spel.speler.x - monster.x;
+        const dy = spel.speler.y - monster.y;
+        const lengte = Math.hypot(dx, dy) || 1;
+        richtingMonster = { x: dx / lengte, y: dy / lengte };
+      }
+    } else {
+      // slenteren: af en toe een nieuw plekje uitzoeken
+      monster.wandelTijd = (monster.wandelTijd ?? 0) - dt;
+      const bijDoel =
+        !monster.doel || Math.hypot(monster.doel.x - monster.x, monster.doel.y - monster.y) < 3;
+      if (bijDoel || monster.wandelTijd <= 0) {
+        monster.doel = {
+          x: VELD.rand + Math.random() * (VELD.breedte - VELD.rand * 2),
+          y: VELD.rand + Math.random() * (VELD.hoogte - VELD.rand * 2),
+        };
+        monster.wandelTijd = 2 + Math.random() * 3;
+      }
+      const dx = monster.doel.x - monster.x;
+      const dy = monster.doel.y - monster.y;
       const lengte = Math.hypot(dx, dy) || 1;
       richtingMonster = { x: dx / lengte, y: dy / lengte };
     }
-    const snelheid = MONSTER.snelheid * (monster.tempo ?? 1);
+
+    const snelheid =
+      (jaagt ? MONSTER.snelheid : MONSTER.wandelSnelheid) * (monster.tempo ?? 1);
     const nieuw = veld.loop(
       monster.x,
       monster.y,
@@ -610,6 +640,26 @@ const lus = maakLus(stap, teken);
 
 // --- schermen -------------------------------------------------------------
 
+function bouwMonsterkeuze() {
+  el.monsterkeuze.replaceChildren();
+  for (const [aan, tekst] of [
+    [true, 'met monsters'],
+    [false, 'zonder monsters'],
+  ]) {
+    const knop = document.createElement('button');
+    knop.type = 'button';
+    knop.className = 'paar paar--woord';
+    knop.textContent = tekst;
+    knop.setAttribute('aria-pressed', String(aan === spel.monstersAan));
+    knop.addEventListener('click', () => {
+      spel.monstersAan = aan;
+      opslag.schrijf('monsters', aan);
+      bouwMonsterkeuze();
+    });
+    el.monsterkeuze.append(knop);
+  }
+}
+
 function bouwAantallen() {
   el.aantallen.replaceChildren();
   for (const aantal of AANTALLEN) {
@@ -674,6 +724,7 @@ function naarStart() {
   lus.stop();
   el.pauzeknop.hidden = true;
   bouwAantallen();
+  bouwMonsterkeuze();
   werkStartschermBij();
   toonLaag(lagen, 'start');
 }
@@ -720,6 +771,7 @@ if (new URLSearchParams(location.search).has('test')) {
 }
 
 bouwAantallen();
+bouwMonsterkeuze();
 werkStartschermBij();
 await laadPlaatjes([SPELER.cp, ...MONSTER.cps, ...OBSTAKEL.cps]);
 teken();

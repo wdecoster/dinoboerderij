@@ -101,6 +101,12 @@ h2 {
   box-shadow: none;
 }
 
+/* Voor onomkeerbare dingen. Bewust niet groot en niet uitnodigend. */
+.knop--gevaar {
+  border-color: var(--fout);
+  color: var(--fout);
+}
+
 /* --- hub ---------------------------------------------------------------- */
 
 .hub {

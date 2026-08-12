@@ -68,6 +68,11 @@ overkant. Ondertussen lopen er monsters rond die je proberen te tikken.
   komt er een monster bij (maximaal vijf).
 - Getikt worden kost niets blijvends: wat je droeg vliegt terug naar zijn plek en
   dat monster staat twee seconden stil.
+- **Monsters komen alleen op je af als je iets draagt.** Met lege handen
+  slenteren ze wat rond, dus je kunt rustig rondkijken en nadenken; het gevaar
+  begint pas als je op weg bent.
+- Op het startscherm kun je ze ook **helemaal uitzetten**. Rijmen is op zichzelf
+  al genoeg, en wie nog met de pijltjes worstelt heeft er niets bij nodig.
 
 Wat op een kaartje staat kun je pakken; wat op het gras staat (bergen, bomen,
 rotsen) is een obstakel.
@@ -121,6 +126,12 @@ overzicht met namen en aantallen.
 
 Er lopen er hoogstens veertig tegelijk in beeld; daarboven wordt het een
 mierenhoop. De teller vertelt hoeveel je er in totaal hebt.
+
+Onderaan het lijstscherm staat **alle dino's wissen**. Dat is een knop voor de
+ouder — na een tijdje uitproberen staat de wei vol — dus hij staat bewust niet
+op de wei zelf, is rood en stil in plaats van groot, en er komt eerst een scherm
+overheen dat vraagt of je het zeker weet. Wissen kan niet ongedaan gemaakt
+worden.
 
 De verzameling staat in de browseropslag, per apparaat. De boerderij is
 bereikbaar vanuit het menu en vanaf het startscherm van elk spel.

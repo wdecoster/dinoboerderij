@@ -19,6 +19,8 @@ export const ICONEN = {
   letters: '1f524', // abc
   aantal: '1f522', // 1234
   boerderij: '1f3e1', // huis met tuin
+  wissen: '1f5d1', // prullenbak
+  waarschuwing: '26a0',
 };
 
 export function icoonCodepoints() {
