@@ -13,6 +13,7 @@ import {
   leesVerzameling,
   vulDinolijst,
   wisVerzameling,
+  wisVoortgang,
 } from '../js/core/verzameling.js';
 import { SOORTEN } from '../js/data/dinos.js';
 
@@ -62,7 +63,8 @@ const el = {
   lijstregel: document.getElementById('lijstregel'),
   wisknop: document.getElementById('wisknop'),
   wisregel: document.getElementById('wisregel'),
-  wisJa: document.getElementById('wis-ja'),
+  wisDinos: document.getElementById('wis-dinos'),
+  wisAlles: document.getElementById('wis-alles'),
   wisNee: document.getElementById('wis-nee'),
 };
 
@@ -333,8 +335,16 @@ el.wisknop.addEventListener('click', () => {
 
 el.wisNee.addEventListener('click', () => toonLaag(lagen, 'lijst'));
 
-el.wisJa.addEventListener('click', async () => {
+el.wisDinos.addEventListener('click', async () => {
   wisVerzameling();
+  await toonKudde();
+});
+
+// Ook de moeilijkheid terug naar het begin: na een middag testen staat de
+// Woordbouwer op woorden van vijf letters met afleiders, en dan begint hij niet
+// meer bij het begin.
+el.wisAlles.addEventListener('click', async () => {
+  wisVoortgang();
   await toonKudde();
 });
 

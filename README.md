@@ -97,8 +97,9 @@ spel onthoudt de laatste acht.
 
 Met de knop **vanzelf** kiest het spel zelf de woordlengte en wordt het langzaam
 moeilijker naarmate er meer woorden goed gaan: van drie letters zonder afleiders
-tot vijf letters met drie afleiders. Je kunt de lengte ook vastzetten op 3, 4 of
-5. Op het startscherm staat in gewone taal wat er op dat moment geldt.
+tot zeven letters met drie afleiders (`kikker`, `olifant`, `paraplu`). Je kunt de
+lengte ook vastzetten op 3 t/m 7. Op het startscherm staat in gewone taal wat er
+op dat moment geldt.
 
 Alleen klankzuivere woorden — die je schrijft zoals je ze zegt.
 
@@ -130,8 +131,17 @@ mierenhoop. De teller vertelt hoeveel je er in totaal hebt.
 Onderaan het lijstscherm staat **alle dino's wissen**. Dat is een knop voor de
 ouder — na een tijdje uitproberen staat de wei vol — dus hij staat bewust niet
 op de wei zelf, is rood en stil in plaats van groot, en er komt eerst een scherm
-overheen dat vraagt of je het zeker weet. Wissen kan niet ongedaan gemaakt
-worden.
+overheen dat vraagt of je het zeker weet. Daar kun je kiezen:
+
+| Keuze | Wat er weggaat |
+|---|---|
+| Alleen de dino's wissen | de kudde |
+| Ook opnieuw beginnen met de spellen | de kudde, plus de moeilijkheid van de Woordbouwer, de snelheidsniveaus en topscores van Sorteren en de beste tijden van Rijmen |
+
+Wat in beide gevallen blijft staan is alles wat jij hebt ingesteld: welke
+plaatjes aan of uit staan, welk letterpaar, of de monsters meedoen. Dat is
+handwerk dat je niet kwijt wilt raken omdat je de wei wilde opruimen. Wissen kan
+niet ongedaan gemaakt worden.
 
 De verzameling staat in de browseropslag, per apparaat. De boerderij is
 bereikbaar vanuit het menu en vanaf het startscherm van elk spel.
@@ -150,7 +160,7 @@ minuten op.
 |---|---|---|
 | `woorden.js` | woorden per beginletter (Sorteren) | 253 |
 | `rijmparen.js` | rijmparen met hun rijmklank (Rijmen) | 26 |
-| `spelwoorden.js` | klankzuivere woorden van 3–5 letters (Woordbouwer) | 85 |
+| `spelwoorden.js` | klankzuivere woorden van 3–7 letters (Woordbouwer) | 104 |
 | `dinos.js` | de soorten en kleuren om te verzamelen | 9 × 8 |
 | `iconen.js` | de plaatjes op de knoppen | 11 |
 

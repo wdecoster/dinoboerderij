@@ -44,6 +44,25 @@ export function wisVerzameling() {
   opslag.schrijf('verzameling', {});
 }
 
+/**
+ * Wist óók de voortgang van de spellen: de moeilijkheid van de Woordbouwer, de
+ * snelheidsniveaus en topscores van Sorteren en de beste tijden van Rijmen.
+ *
+ * Wat blijft staan is alles wat de ouder heeft ingesteld — welke plaatjes aan
+ * of uit staan, welk letterpaar, of de monsters meedoen. Dat is handwerk dat je
+ * niet kwijt wilt raken omdat je de wei wilde opruimen.
+ */
+export function wisVoortgang() {
+  wisVerzameling();
+
+  const isVoortgang = (naam) =>
+    naam === 'goed' || naam.startsWith('niveau:') || naam.startsWith('beste:');
+
+  for (const ruimte of ['bouw', 'sorteer', 'rijm']) {
+    maakOpslag(ruimte).verwijderWaar(isVoortgang);
+  }
+}
+
 /** Dezelfde tekening, andere kleur. */
 export function tintFilter(tint) {
   return Number(tint) ? `hue-rotate(${tint}deg) saturate(1.3)` : '';

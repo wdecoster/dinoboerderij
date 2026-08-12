@@ -14,6 +14,18 @@ export function maakOpslag(ruimte) {
         return standaard;
       }
     },
+    /** Alle sleutels van deze ruimte die aan het predikaat voldoen, weggooien. */
+    verwijderWaar(hoortWeg) {
+      try {
+        const voorvoegsel = `leesspel:${ruimte}:`;
+        for (const sleutel of Object.keys(localStorage)) {
+          if (!sleutel.startsWith(voorvoegsel)) continue;
+          if (hoortWeg(sleutel.slice(voorvoegsel.length))) localStorage.removeItem(sleutel);
+        }
+      } catch {
+        /* niets te doen */
+      }
+    },
     schrijf(naam, waarde) {
       try {
         localStorage.setItem(sleutelVan(naam), JSON.stringify(waarde));

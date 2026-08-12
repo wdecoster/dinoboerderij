@@ -28,6 +28,8 @@ export const NIVEAUS = [
   { vanaf: 18, lengtes: [4], afleiders: 2 },
   { vanaf: 28, lengtes: [4, 5], afleiders: 3 },
   { vanaf: 40, lengtes: [5], afleiders: 3 },
+  { vanaf: 55, lengtes: [5, 6], afleiders: 3 },
+  { vanaf: 75, lengtes: [6, 7], afleiders: 3 },
 ];
 
 /** Welk niveau hoort bij dit aantal goede woorden? */

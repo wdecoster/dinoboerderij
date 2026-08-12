@@ -102,6 +102,28 @@ export const spelwoorden = [
   { woord: 'schip', cp: '1f6a2' },
   { woord: 'stoel', cp: '1fa91' },
   { woord: 'taart', cp: '1f370' },
+  // --- zes letters ---
+  { woord: 'kikker', cp: '1f438' },
+  { woord: 'wortel', cp: '1f955' },
+  { woord: 'ladder', cp: '1fa9c' },
+  { woord: 'tomaat', cp: '1f345' },
+  { woord: 'banaan', cp: '1f34c' },
+  { woord: 'ananas', cp: '1f34d' },
+  { woord: 'meloen', cp: '1f348' },
+  { woord: 'kompas', cp: '1f9ed' },
+  { woord: 'koffer', cp: '1f9f3' },
+  { woord: 'gitaar', cp: '1f3b8' },
+  { woord: 'schoen', cp: '1f45f' },
+  { woord: 'konijn', cp: '1f430' },
+
+  // --- zeven letters ---
+  { woord: 'vlinder', cp: '1f98b' },
+  { woord: 'olifant', cp: '1f418' },
+  { woord: 'dolfijn', cp: '1f42c' },
+  { woord: 'trompet', cp: '1f3ba' },
+  { woord: 'paraplu', cp: '2602' },
+  { woord: 'pinguin', cp: '1f427' },
+  { woord: 'garnaal', cp: '1f990' },
 ];
 
 /** Alle codepoints die deze woorden nodig hebben (voor de download-tool). */
@@ -118,4 +140,4 @@ export function woordenMetLengte(lengte) {
 }
 
 /** Welke woordlengtes zitten er in de lijst? */
-export const LENGTES = [3, 4, 5];
+export const LENGTES = [3, 4, 5, 6, 7];
