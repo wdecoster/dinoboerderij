@@ -83,6 +83,7 @@ const spel = {
   wachten: 0,
   bakFlits: { links: 0, rechts: 0 },
   verdiend: [], // de dino's van deze beurt, rechtsboven in beeld
+  gezien: new Map(), // hoe vaak elk woord al langskwam, om herhaling te spreiden
   bezig: false,
 };
 
@@ -97,6 +98,7 @@ function poolVoorPaar(paar) {
 
 async function vulPool() {
   spel.pool = await laadWoordPlaatjes(poolVoorPaar(spel.paar), plaatjePad);
+  spel.gezien = new Map(); // ander letterpaar, ander lijstje
   werkStartschermBij();
 }
 
@@ -110,14 +112,26 @@ function werkStartschermBij() {
 
 // --- spelverloop ----------------------------------------------------------
 
+/**
+ * Kiest het volgende plaatje: het minst gebruikte eerst.
+ *
+ * Puur willekeurig trekken voelt bij dagelijks spelen veel herhaliger dan het
+ * is — dezelfde boom komt drie keer voorbij terwijl de helft van de bank nog
+ * niet langs is geweest. We houden per woord bij hoe vaak het al gekomen is,
+ * pakken alleen uit de groep die het minst is geweest, en kiezen daarbinnen
+ * willekeurig. Zo komt eerst de hele bank aan de beurt voordat er iets
+ * terugkeert, zonder dat de volgorde voorspelbaar wordt.
+ */
 function kiesWoord() {
   if (spel.pool.length === 0) return null;
-  // Niet twee keer achter elkaar hetzelfde plaatje: dat voelt als een fout in
-  // het spel, ook al is het toeval.
-  let keuze;
-  do {
-    keuze = spel.pool[Math.floor(Math.random() * spel.pool.length)];
-  } while (spel.pool.length > 1 && keuze === spel.laatste);
+
+  const minste = Math.min(...spel.pool.map((w) => spel.gezien.get(w.woord.woord) ?? 0));
+  let kandidaten = spel.pool.filter((w) => (spel.gezien.get(w.woord.woord) ?? 0) === minste);
+  // en nooit twee keer achter elkaar hetzelfde
+  if (kandidaten.length > 1) kandidaten = kandidaten.filter((w) => w !== spel.laatste);
+
+  const keuze = kandidaten[Math.floor(Math.random() * kandidaten.length)];
+  spel.gezien.set(keuze.woord.woord, (spel.gezien.get(keuze.woord.woord) ?? 0) + 1);
   spel.laatste = keuze;
   return keuze;
 }
@@ -569,3 +583,9 @@ registreerServiceWorker();
 bouwParenlijst();
 await vulPool();
 teken();
+
+// Testhaak, net als bij de andere spellen: met ?test in de URL kan een script
+// nakijken of de woordkeuze zich netjes over de bank verdeelt.
+if (new URLSearchParams(location.search).has('test')) {
+  window.__sorteer = { spel, kiesWoord, vulPool, startSpel };
+}

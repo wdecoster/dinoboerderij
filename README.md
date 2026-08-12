@@ -183,9 +183,9 @@ minuten op.
 
 | Bestand | Inhoud | Omvang |
 |---|---|---|
-| `woorden.js` | woorden per beginletter (Sorteren) | 253 |
+| `woorden.js` | woorden per beginletter (Sorteren) | 361 |
 | `rijmparen.js` | rijmparen met hun rijmklank (Rijmen) | 26 |
-| `spelwoorden.js` | klankzuivere woorden van 3–7 letters (Woordbouwer) | 104 |
+| `spelwoorden.js` | klankzuivere woorden van 3–7 letters (Woordbouwer, Voeren) | 141 |
 | `dinos.js` | de soorten en kleuren om te verzamelen | 9 × 8 |
 | `iconen.js` | de plaatjes op de knoppen | 11 |
 
@@ -193,6 +193,17 @@ Rijmparen hebben een veld `klank`. Twee paren met dezelfde klank mogen nooit
 samen in één veld liggen — "tand/hand" en "mand/hand" zouden dan allebei kloppen
 en dan is er geen goed antwoord meer. Het spel kiest daarom hoogstens één paar
 per klank.
+
+De lijst is opgebouwd met de **Nederlandse CLDR-namen** van Unicode: die geven
+voor elke emoji een officiële Nederlandse naam, dus de woorden zijn nagekeken in
+plaats van uit het hoofd opgeschreven. In de bruikbare categorieën (dieren,
+eten, voorwerpen, plekken, activiteiten) zit nog ruimte voor uitbreiding; wat er
+niet in kwam is wat een kind niet eenduidig benoemt.
+
+Herhaling is niet alleen een kwestie van aantallen. Alle vier de spellen houden
+bij wat er al langskwam en geven het minst geziene voorrang, zodat eerst de hele
+bank aan de beurt komt voordat er iets terugkeert. Puur willekeurig trekken
+voelt bij dagelijks spelen veel herhaliger dan het is.
 
 ### Een woord toevoegen
 

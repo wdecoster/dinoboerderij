@@ -13,6 +13,11 @@
 
 export const spelwoorden = [
   // --- drie letters ---
+  { woord: 'mug', cp: '1f99f' },
+  { woord: 'das', cp: '1f9a1' },
+  { woord: 'kam', cp: '1faae' },
+  { woord: 'bad', cp: '1f6c1' },
+  { woord: 'bom', cp: '1f4a3' },
   { woord: 'aap', cp: '1f412' },
   { woord: 'bal', cp: '26bd', standaard: false }, // of "voetbal"
   { woord: 'bed', cp: '1f6cf' },
@@ -38,6 +43,18 @@ export const spelwoorden = [
   { woord: 'zon', cp: '2600' },
 
   // --- vier letters ---
+  { woord: 'ezel', cp: '1facf' },
+  { woord: 'hert', cp: '1f98c' },
+  { woord: 'lama', cp: '1f999' },
+  { woord: 'veer', cp: '1fab6' },
+  { woord: 'kwal', cp: '1fabc' },
+  { woord: 'jurk', cp: '1f457' },
+  { woord: 'helm', cp: '1fa96' },
+  { woord: 'bijl', cp: '1fa93' },
+  { woord: 'lift', cp: '1f6d7' },
+  { woord: 'kerk', cp: '26ea' },
+  { woord: 'tent', cp: '26fa' },
+  { woord: 'wiel', cp: '1f6de' },
   { woord: 'bank', cp: '1f4b5', standaard: false },
   { woord: 'beer', cp: '1f43b' },
   { woord: 'berg', cp: '26f0' },
@@ -88,6 +105,16 @@ export const spelwoorden = [
   { woord: 'zout', cp: '1f9c2' },
 
   // --- vijf letters ---
+  { woord: 'wafel', cp: '1f9c7' },
+  { woord: 'boter', cp: '1f9c8' },
+  { woord: 'broek', cp: '1f456' },
+  { woord: 'sjaal', cp: '1f9e3' },
+  { woord: 'krant', cp: '1f4f0' },
+  { woord: 'kwast', cp: '1f58c' },
+  { woord: 'krijt', cp: '1f58d' },
+  { woord: 'spons', cp: '1f9fd' },
+  { woord: 'hotel', cp: '1f3e8' },
+  { woord: 'metro', cp: '1f687' },
   { woord: 'appel', cp: '1f34e' },
   { woord: 'bloem', cp: '1f33c' },
   { woord: 'draak', cp: '1f409' },
@@ -103,6 +130,10 @@ export const spelwoorden = [
   { woord: 'stoel', cp: '1fa91' },
   { woord: 'taart', cp: '1f370' },
   // --- zes letters ---
+  { woord: 'schelp', cp: '1f41a' },
+  { woord: 'laptop', cp: '1f4bb' },
+  { woord: 'schild', cp: '1f6e1' },
+  { woord: 'school', cp: '1f3eb' },
   { woord: 'kikker', cp: '1f438' },
   { woord: 'wortel', cp: '1f955' },
   { woord: 'ladder', cp: '1fa9c' },
@@ -117,6 +148,12 @@ export const spelwoorden = [
   { woord: 'konijn', cp: '1f430' },
 
   // --- zeven letters ---
+  { woord: 'hamster', cp: '1f439' },
+  { woord: 'stekker', cp: '1f50c' },
+  { woord: 'liniaal', cp: '1f4cf' },
+  { woord: 'spiegel', cp: '1fa9e' },
+  { woord: 'fabriek', cp: '1f3ed' },
+  { woord: 'kasteel', cp: '1f3f0' },
   { woord: 'vlinder', cp: '1f98b' },
   { woord: 'olifant', cp: '1f418' },
   { woord: 'dolfijn', cp: '1f42c' },
