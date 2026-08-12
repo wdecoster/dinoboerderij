@@ -102,6 +102,7 @@ const plaatjeVan = (cp) => plaatjes.get(cp) ?? null;
 const spel = {
   aantal: opslag.lees('aantal', STANDAARD_AANTAL),
   monstersAan: opslag.lees('monsters', STANDAARD_MONSTERS),
+  gezien: new Map(), // hoe vaak elk rijmpaar al aan de beurt was
   niveau: null,
   speler: { x: 0, y: 0, kijktLinks: false },
   draagt: null,
@@ -148,7 +149,13 @@ async function startSpel() {
   const beschikbaar = actieveParen();
   if (beschikbaar.length < spel.aantal) return;
 
-  const gekozen = kiesParenZonderKruisrijm(husselen(beschikbaar), spel.aantal);
+  // Minst geziene paren eerst, en binnen dezelfde stand willekeurig: met 26
+  // paren en 3 per veld komen anders steeds dezelfde favorieten voorbij.
+  const opVolgorde = husselen(beschikbaar).sort(
+    (a, b) => (spel.gezien.get(paarId(a)) ?? 0) - (spel.gezien.get(paarId(b)) ?? 0)
+  );
+  const gekozen = kiesParenZonderKruisrijm(opVolgorde, spel.aantal);
+  for (const paar of gekozen) spel.gezien.set(paarId(paar), (spel.gezien.get(paarId(paar)) ?? 0) + 1);
   if (gekozen.length < spel.aantal) return;
   await laadPlaatjes([
     ...gekozen.flatMap((p) => [p.links.cp, p.rechts.cp]),

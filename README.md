@@ -78,7 +78,7 @@ Wat op een kaartje staat kun je pakken; wat op het gras staat (bergen, bomen,
 rotsen) is een obstakel.
 
 **Bediening: alleen de pijltjestoetsen.** Dit spel werkt dus niet op een telefoon
-of tablet; de andere twee wel.
+of tablet; de andere drie wel.
 
 ### Woordbouwer — van klank naar letter
 
@@ -129,7 +129,7 @@ Werkt met tikken, dus ook op een tablet.
 
 ## De dino's
 
-Alle drie de spellen vullen dezelfde kudde:
+Alle vier de spellen vullen dezelfde kudde:
 
 | Spel | Wanneer |
 |---|---|
@@ -200,10 +200,13 @@ plaats van uit het hoofd opgeschreven. In de bruikbare categorieën (dieren,
 eten, voorwerpen, plekken, activiteiten) zit nog ruimte voor uitbreiding; wat er
 niet in kwam is wat een kind niet eenduidig benoemt.
 
-Herhaling is niet alleen een kwestie van aantallen. Alle vier de spellen houden
-bij wat er al langskwam en geven het minst geziene voorrang, zodat eerst de hele
-bank aan de beurt komt voordat er iets terugkeert. Puur willekeurig trekken
-voelt bij dagelijks spelen veel herhaliger dan het is.
+Herhaling is niet alleen een kwestie van aantallen. Puur willekeurig trekken
+voelt bij dagelijks spelen veel herhaliger dan het is, dus kiest geen enkel spel
+zomaar:
+
+- **Sorteren** en **Rijmen** geven het minst geziene woord of rijmpaar voorrang,
+  zodat eerst de hele bank aan de beurt komt voordat er iets terugkeert.
+- **Woordbouwer** en **Dino's voeren** slaan de laatste acht woorden over.
 
 ### Een woord toevoegen
 
