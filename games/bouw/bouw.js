@@ -28,6 +28,7 @@ import { EI_CP } from '../../js/data/dinos.js';
 import { maakParade } from './parade.js';
 import {
   HINT_NA,
+  WOORDEN_PER_DINO,
   STANDAARD_LENGTE,
   PARADE,
   VERWARREND,
@@ -49,6 +50,7 @@ const el = {
   spelen: document.getElementById('spelen'),
   geenWoorden: document.getElementById('geen-woorden'),
   voortgang: document.getElementById('voortgang'),
+  uitleg: document.getElementById('uitleg'),
   dinoknop: document.getElementById('dinoknop'),
   dinolijst: document.getElementById('dinolijst'),
   dinoregel: document.getElementById('dinoregel'),
@@ -56,6 +58,7 @@ const el = {
   woordenknop: document.getElementById('woordenknop'),
   woordenlijst: document.getElementById('woordenlijst'),
   woordenKlaar: document.getElementById('woorden-klaar'),
+  eipips: document.getElementById('eipips'),
 };
 
 const lagen = {
@@ -69,6 +72,7 @@ const opslag = maakOpslag('bouw');
 const spel = {
   lengte: opslag.lees('lengte', STANDAARD_LENGTE), // 'auto' of 3/4/5
   woord: null,
+  recent: [], // laatst getoonde woorden, om herhaling te vermijden
   gezet: 0,
   misgrepen: 0,
   bezig: false,
@@ -132,15 +136,27 @@ function kiesAfleiders(woord, aantal) {
 
 // --- een woord klaarzetten ------------------------------------------------
 
+// Hoeveel woorden we onthouden om niet te herhalen. Nooit meer dan de helft van
+// wat er te kiezen valt, anders blijft er niets over: bij drie beschikbare
+// woorden kun je er geen acht uitsluiten.
+const MAX_GEHEUGEN = 8;
+
 function nieuwWoord() {
   const pool = beschikbaar();
   if (pool.length === 0) return;
 
-  let keuze;
-  do {
-    keuze = pool[Math.floor(Math.random() * pool.length)];
-  } while (pool.length > 1 && keuze === spel.woord);
+  // Alleen het vórige woord overslaan is te weinig: met twintig woorden kwam
+  // hetzelfde plaatje nog steeds om de haverklap terug.
+  const geheugen = Math.min(MAX_GEHEUGEN, Math.max(1, Math.floor(pool.length / 2)));
+  spel.recent = spel.recent.slice(-geheugen);
 
+  const vers = pool.filter((w) => !spel.recent.includes(w.woord));
+  const kiesUit = vers.length > 0 ? vers : pool.filter((w) => w.woord !== spel.woord?.woord);
+  const keuze = (kiesUit.length > 0 ? kiesUit : pool)[
+    Math.floor(Math.random() * (kiesUit.length > 0 ? kiesUit.length : pool.length))
+  ];
+
+  spel.recent.push(keuze.woord);
   spel.woord = keuze;
   spel.gezet = 0;
   spel.misgrepen = 0;
@@ -153,6 +169,7 @@ function nieuwWoord() {
 
   bouwVakjes();
   bouwLetters();
+  werkPipsBij();
 }
 
 function bouwVakjes() {
@@ -228,29 +245,57 @@ function wijsAan(letter) {
 
 function gelukt() {
   spel.bezig = false;
-  opslag.schrijf('goed', aantalGoed() + 1);
-  const dino = verdienDino();
+  const goed = aantalGoed() + 1;
+  opslag.schrijf('goed', goed);
+  werkPipsBij(goed);
 
-  el.ei.hidden = true;
-  el.dino.src = plaatjePad(dino.soort.cp);
-  el.dino.style.filter = tintFilter(dino.tint);
-  el.dino.hidden = false;
-  el.dino.classList.remove('bouw__dino--uit');
-  void el.dino.offsetWidth;
-  el.dino.classList.add('bouw__dino--uit');
+  // Niet elk woord levert een dino op: er zitten er meerdere in een ei.
+  const komtUit = goed % WOORDEN_PER_DINO === 0;
+  const dino = komtUit ? verdienDino() : null;
+
+  if (komtUit) {
+    el.ei.hidden = true;
+    el.dino.src = plaatjePad(dino.soort.cp);
+    el.dino.style.filter = tintFilter(dino.tint);
+    el.dino.hidden = false;
+    el.dino.classList.remove('bouw__dino--uit');
+    void el.dino.offsetWidth;
+    el.dino.classList.add('bouw__dino--uit');
+  } else {
+    // Nog niet uit, maar het ei schudt wel: er zit duidelijk iets in.
+    el.ei.classList.remove('bouw__eiplaatje--wiebel');
+    void el.ei.offsetWidth;
+    el.ei.classList.add('bouw__eiplaatje--wiebel');
+  }
 
   // Even van het beestje genieten, dan loopt hij de kudde in en komt het
-  // volgende woord.
-  setTimeout(() => {
-    if (!lagen.start.hidden || !lagen.dinos.hidden || !lagen.woorden.hidden) return;
-    parade.voegToe({
-      cp: dino.soort.cp,
-      filter: tintFilter(dino.tint),
-      bron: plaatjePad(dino.soort.cp),
-    });
-    spel.bezig = true;
-    nieuwWoord();
-  }, 1800);
+  // volgende woord. Zonder dino hoeft die pauze niet zo lang.
+  setTimeout(
+    () => {
+      if (!lagen.start.hidden || !lagen.dinos.hidden || !lagen.woorden.hidden) return;
+      if (dino) {
+        parade.voegToe({
+          cp: dino.soort.cp,
+          filter: tintFilter(dino.tint),
+          bron: plaatjePad(dino.soort.cp),
+        });
+      }
+      spel.bezig = true;
+      nieuwWoord();
+    },
+    komtUit ? 1800 : 750
+  );
+}
+
+/** De stipjes onder het ei: hoeveel woorden zitten er al in? */
+function werkPipsBij(goed = aantalGoed()) {
+  const gedaan = goed % WOORDEN_PER_DINO;
+  el.eipips.replaceChildren();
+  for (let i = 0; i < WOORDEN_PER_DINO; i++) {
+    const pip = document.createElement('span');
+    pip.className = i < gedaan ? 'eipip eipip--vol' : 'eipip';
+    el.eipips.append(pip);
+  }
 }
 
 // --- de rondlopende kudde -------------------------------------------------
@@ -287,14 +332,22 @@ function werkStartschermBij() {
 
   const goed = aantalGoed();
   const niveau = huidigNiveau();
-  const stukjes = [
-    goed === 0 ? 'Nog geen woord' : `${goed} ${goed === 1 ? 'woord' : 'woorden'} goed`,
-    `woorden van ${niveau.lengtes.join(' en ')} letters`,
-  ];
-  if (niveau.afleiders > 0) {
-    stukjes.push(`${niveau.afleiders} letter${niveau.afleiders === 1 ? '' : 's'} te veel`);
-  }
-  el.voortgang.textContent = stukjes.join(' · ');
+  const lengtes = niveau.lengtes.join(' en ');
+  const extra =
+    niveau.afleiders > 0
+      ? `, met ${niveau.afleiders} letter${niveau.afleiders === 1 ? '' : 's'} te veel`
+      : '';
+
+  // "vanzelf" zegt op zichzelf niets; hier staat wat het spel nú doet.
+  el.uitleg.textContent =
+    spel.lengte === 'auto'
+      ? `Vanzelf = het spel kiest de lengte en wordt langzaam moeilijker. Nu: woorden van ${lengtes} letters${extra}.`
+      : `Altijd woorden van ${spel.lengte} letters${extra}.`;
+
+  el.voortgang.textContent =
+    goed === 0
+      ? 'Nog geen woord gebouwd'
+      : `${goed} ${goed === 1 ? 'woord' : 'woorden'} goed · elke ${WOORDEN_PER_DINO} woorden komt er een dino uit het ei`;
 }
 
 function bouwLengtes() {
@@ -352,6 +405,7 @@ function startSpel() {
   if (beschikbaar().length === 0) return;
   spel.bezig = true;
   spel.woord = null;
+  spel.recent = [];
   toonLaag(lagen, null);
   el.spel.hidden = false;
   el.pauzeknop.hidden = false;

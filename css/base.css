@@ -421,6 +421,28 @@ h2 {
   100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
+/* Stipjes onder het ei: hoeveel woorden zitten er al in? */
+.eipips {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.eipip {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--rand);
+}
+
+.eipip--vol {
+  background: var(--goed);
+}
+
+/* Het ei schudt na een goed woord dat het ei nog niet opent. */
+.bouw__eiplaatje--wiebel {
+  animation: wiebel 0.35s ease-in-out 3;
+}
+
 .bouw__plaatje {
   height: clamp(6rem, 22vh, 12rem);
   width: auto;

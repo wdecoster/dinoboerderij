@@ -5,6 +5,14 @@
 // letter te laten meebewegen. Vastlopen is het enige wat echt misgaat.
 export const HINT_NA = 3;
 
+// Hoeveel woorden er in één ei zitten.
+//
+// Eén woord per dino ging veel te hard: een woord kost een seconde of tien,
+// terwijl je in Sorteren vijf goede antwoorden nodig hebt en in Rijmen een heel
+// veld moet uitspelen. Met drie woorden per ei kost een dino overal ongeveer
+// evenveel moeite.
+export const WOORDEN_PER_DINO = 3;
+
 // --- moeilijker worden ----------------------------------------------------
 
 // Hoe meer dino's hij hier heeft uitgebroed, hoe zwaarder het werk. Dat telt
