@@ -9,9 +9,10 @@ import { maakInvoer } from '../../js/core/input.js';
 import { maakOpslag } from '../../js/core/storage.js';
 import { laadWoordPlaatjes, laadPlaatje } from '../../js/core/plaatjes.js';
 import { toonLaag, registreerServiceWorker } from '../../js/core/ui.js';
+import { zetKnopIconen } from '../../js/core/knoppen.js';
 import { vanWortel } from '../../js/core/pad.js';
 import { woordenMetLetter, plaatjePad, standaardAan } from '../../js/data/woorden.js';
-import { verdienDino, vulDinolijst, tintFilter } from '../../js/core/verzameling.js';
+import { verdienDino } from '../../js/core/verzameling.js';
 import { paren, STANDAARD_PAAR, moeilijkheid } from './paren.js';
 
 // --- vaste maten van het speelveld (hoogte = 100 eenheden) ----------------
@@ -48,10 +49,6 @@ const el = {
   woordenknop: document.getElementById('woordenknop'),
   woordenlijst: document.getElementById('woordenlijst'),
   woordenKlaar: document.getElementById('woorden-klaar'),
-  dinoknop: document.getElementById('dinoknop'),
-  dinolijst: document.getElementById('dinolijst'),
-  dinoregel: document.getElementById('dinoregel'),
-  dinosKlaar: document.getElementById('dinos-klaar'),
   geenWoorden: document.getElementById('geen-woorden'),
   eindscore: document.getElementById('eindscore'),
   eindregel: document.getElementById('eindregel'),
@@ -64,7 +61,6 @@ const el = {
 const lagen = {
   start: document.getElementById('laag-start'),
   woorden: document.getElementById('laag-woorden'),
-  dinos: document.getElementById('laag-dinos'),
   klaar: document.getElementById('laag-klaar'),
   pauze: document.getElementById('laag-pauze'),
 };
@@ -544,11 +540,6 @@ el.verder.addEventListener('click', () => {
   el.pauzeknop.hidden = false;
   lus.start();
 });
-el.dinoknop.addEventListener('click', () => {
-  vulDinolijst(el.dinolijst, el.dinoregel, (cp) => vanWortel(`assets/img/${cp}.svg`));
-  toonLaag(lagen, 'dinos');
-});
-el.dinosKlaar.addEventListener('click', () => toonLaag(lagen, 'start'));
 el.woordenknop.addEventListener('click', () => {
   bouwWoordenlijst();
   toonLaag(lagen, 'woorden');
@@ -572,6 +563,7 @@ document.addEventListener('visibilitychange', () => {
 
 maakInvoer(el.doek, antwoord);
 viewport.opWijziging = teken; // draaien van de telefoon wist het doek
+zetKnopIconen();
 registreerServiceWorker();
 
 bouwParenlijst();

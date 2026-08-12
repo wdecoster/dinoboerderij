@@ -11,6 +11,7 @@
 
 import { maakOpslag } from '../../js/core/storage.js';
 import { toonLaag, registreerServiceWorker } from '../../js/core/ui.js';
+import { zetKnopIconen } from '../../js/core/knoppen.js';
 import { vanWortel } from '../../js/core/pad.js';
 import {
   spelwoorden,
@@ -18,12 +19,7 @@ import {
   woordenMetLengte,
   LENGTES,
 } from '../../js/data/spelwoorden.js';
-import {
-  verdienDino,
-  leesVerzameling,
-  vulDinolijst,
-  tintFilter,
-} from '../../js/core/verzameling.js';
+import { verdienDino, leesVerzameling, tintFilter } from '../../js/core/verzameling.js';
 import { EI_CP } from '../../js/data/dinos.js';
 import { maakParade } from './parade.js';
 import {
@@ -51,10 +47,6 @@ const el = {
   geenWoorden: document.getElementById('geen-woorden'),
   voortgang: document.getElementById('voortgang'),
   uitleg: document.getElementById('uitleg'),
-  dinoknop: document.getElementById('dinoknop'),
-  dinolijst: document.getElementById('dinolijst'),
-  dinoregel: document.getElementById('dinoregel'),
-  dinosKlaar: document.getElementById('dinos-klaar'),
   woordenknop: document.getElementById('woordenknop'),
   woordenlijst: document.getElementById('woordenlijst'),
   woordenKlaar: document.getElementById('woorden-klaar'),
@@ -63,7 +55,6 @@ const el = {
 
 const lagen = {
   start: document.getElementById('laag-start'),
-  dinos: document.getElementById('laag-dinos'),
   woorden: document.getElementById('laag-woorden'),
 };
 
@@ -369,10 +360,6 @@ function bouwLengtes() {
   }
 }
 
-function bouwDinolijst() {
-  vulDinolijst(el.dinolijst, el.dinoregel, plaatjePad);
-}
-
 function bouwWoordenlijst() {
   el.woordenlijst.replaceChildren();
   for (const woord of spelwoorden) {
@@ -427,11 +414,6 @@ function naarStart() {
 
 el.spelen.addEventListener('click', startSpel);
 el.pauzeknop.addEventListener('click', naarStart);
-el.dinoknop.addEventListener('click', () => {
-  bouwDinolijst();
-  toonLaag(lagen, 'dinos');
-});
-el.dinosKlaar.addEventListener('click', () => toonLaag(lagen, 'start'));
 el.woordenknop.addEventListener('click', () => {
   bouwWoordenlijst();
   toonLaag(lagen, 'woorden');
@@ -459,6 +441,7 @@ document.addEventListener('visibilitychange', () => {
   else if (!el.spel.hidden) parade.start();
 });
 
+zetKnopIconen();
 registreerServiceWorker();
 bouwLengtes();
 werkStartschermBij();

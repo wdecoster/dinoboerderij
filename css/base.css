@@ -66,6 +66,7 @@ h2 {
   cursor: pointer;
   box-shadow: var(--schaduw);
   touch-action: manipulation;
+  text-decoration: none;
 }
 
 .knop:active {
@@ -77,6 +78,18 @@ h2 {
   font-size: 1.6rem;
   padding: 1rem 2.5rem;
   min-height: 4rem;
+}
+
+/* Het icoontje is voor wie niet leest het echte label. */
+.knop__icoon {
+  width: 1.5em;
+  height: 1.5em;
+  flex: none;
+}
+
+.knop--groot .knop__icoon {
+  width: 1.4em;
+  height: 1.4em;
 }
 
 .knop--stil {
@@ -233,6 +246,35 @@ h2 {
   top: 0.75rem;
   left: 0.75rem;
   z-index: 5;
+}
+
+.terug--rechts {
+  left: auto;
+  right: 0.75rem;
+}
+
+/* --- boerderij ---------------------------------------------------------- */
+
+.boerderij__teller {
+  position: fixed;
+  top: 1.35rem;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  z-index: 5;
+  color: var(--inkt-zacht);
+  font-size: 1rem;
+  font-weight: 700;
+  pointer-events: none;
+  text-align: center;
+}
+
+@media (max-width: 34rem) {
+  /* op een smal scherm botst de teller met de knoppen */
+  .boerderij__teller {
+    top: auto;
+    bottom: 0.75rem;
+  }
 }
 
 /* --- letterparen kiezen ------------------------------------------------- */

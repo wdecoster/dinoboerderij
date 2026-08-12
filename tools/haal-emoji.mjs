@@ -16,6 +16,7 @@ import { rijmCodepoints } from '../js/data/rijmparen.js';
 import { spelCodepoints } from '../games/rijm/config.js';
 import { spelwoordCodepoints } from '../js/data/spelwoorden.js';
 import { dinoCodepoints } from '../js/data/dinos.js';
+import { icoonCodepoints } from '../js/data/iconen.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const imgDir = resolve(root, 'assets/img');
@@ -49,6 +50,7 @@ const codepoints = [
     ...spelCodepoints(),
     ...spelwoordCodepoints(),
     ...dinoCodepoints(),
+    ...icoonCodepoints(),
   ]),
 ];
 await mkdir(imgDir, { recursive: true });

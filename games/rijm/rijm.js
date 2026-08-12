@@ -11,6 +11,7 @@ import { maakToetsen } from '../../js/core/toetsen.js';
 import { maakOpslag } from '../../js/core/storage.js';
 import { laadPlaatje } from '../../js/core/plaatjes.js';
 import { toonLaag, registreerServiceWorker } from '../../js/core/ui.js';
+import { zetKnopIconen } from '../../js/core/knoppen.js';
 import { vanWortel } from '../../js/core/pad.js';
 import {
   rijmparen,
@@ -18,7 +19,7 @@ import {
   paarId,
   kiesParenZonderKruisrijm,
 } from '../../js/data/rijmparen.js';
-import { verdienDino, vulDinolijst } from '../../js/core/verzameling.js';
+import { verdienDino } from '../../js/core/verzameling.js';
 import { maakNiveau } from './veld.js';
 import {
   VELD,
@@ -60,10 +61,6 @@ const el = {
   parenknop: document.getElementById('parenknop'),
   parenlijst: document.getElementById('parenlijst'),
   parenKlaar: document.getElementById('paren-klaar'),
-  dinoknop: document.getElementById('dinoknop'),
-  dinolijst: document.getElementById('dinolijst'),
-  dinoregel: document.getElementById('dinoregel'),
-  dinosKlaar: document.getElementById('dinos-klaar'),
   eindtijd: document.getElementById('eindtijd'),
   eindregel: document.getElementById('eindregel'),
   opnieuw: document.getElementById('opnieuw'),
@@ -75,7 +72,6 @@ const el = {
 const lagen = {
   start: document.getElementById('laag-start'),
   paren: document.getElementById('laag-paren'),
-  dinos: document.getElementById('laag-dinos'),
   pauze: document.getElementById('laag-pauze'),
   klaar: document.getElementById('laag-klaar'),
 };
@@ -692,11 +688,6 @@ el.verder.addEventListener('click', () => {
   el.pauzeknop.hidden = false;
   lus.start();
 });
-el.dinoknop.addEventListener('click', () => {
-  vulDinolijst(el.dinolijst, el.dinoregel, (cp) => vanWortel(`assets/img/${cp}.svg`));
-  toonLaag(lagen, 'dinos');
-});
-el.dinosKlaar.addEventListener('click', () => toonLaag(lagen, 'start'));
 el.parenknop.addEventListener('click', () => {
   bouwParenlijst();
   toonLaag(lagen, 'paren');
@@ -717,6 +708,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 viewport.opWijziging = teken;
+zetKnopIconen();
 registreerServiceWorker();
 
 // Testhaak. Een veldspel is van buitenaf niet te controleren — je ziet alleen

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Mijn boerderij — Dinoboerderij</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="manifest" href="../manifest.webmanifest" />
+    <link rel="icon" href="../assets/icon-192.png" />
+    <meta name="theme-color" content="#fdf6e3" />
+  </head>
+  <body>
+    <main class="spel">
+      <canvas id="doek" class="spel__doek spel__doek--veld" aria-label="De boerderij met je dino's"></canvas>
+    </main>
+
+    <a class="knop knop--stil terug" href="../index.html" data-icoon="1f3e0">terug naar het menu</a>
+    <button id="lijstknop" class="knop knop--stil terug terug--rechts" type="button" data-icoon="1f4cb">
+      lijst
+    </button>
+    <p id="teller" class="boerderij__teller"></p>
+
+    <!-- de lijst met namen en aantallen -->
+    <section id="laag-lijst" class="laag" hidden>
+      <h2 class="laag__titel">Mijn dino's</h2>
+      <p id="lijstregel" class="laag__regel"></p>
+      <ul id="dinolijst" class="dinolijst"></ul>
+      <button id="lijst-klaar" class="knop" type="button" data-icoon="2705">Klaar</button>
+      <a class="knop knop--stil" href="../index.html" data-icoon="1f3e0">terug naar het menu</a>
+    </section>
+
+    <!-- nog geen dino's -->
+    <section id="laag-leeg" class="laag" hidden>
+      <h2 class="laag__titel">Nog geen dino's</h2>
+      <p class="laag__regel">Speel een spel en verdien je eerste dino!</p>
+      <a class="knop knop--groot" href="../index.html" data-icoon="25b6">Kies een spel</a>
+    </section>
+
+    <script type="module" src="./boerderij.js"></script>
+  </body>
+</html>

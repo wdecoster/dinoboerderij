@@ -3,8 +3,8 @@
 
 import { spellen } from './games.js';
 import { vanWortel } from './core/pad.js';
-import { registreerServiceWorker, toonLaag } from './core/ui.js';
-import { vulDinolijst } from './core/verzameling.js';
+import { registreerServiceWorker } from './core/ui.js';
+import { zetKnopIconen } from './core/knoppen.js';
 
 const lijst = document.getElementById('tegels');
 
@@ -35,17 +35,5 @@ for (const spel of spellen) {
   lijst.append(item);
 }
 
-// De kudde is van alle spellen samen, dus hoort hij ook gewoon in het menu te
-// staan en niet alleen ergens binnen een spel.
-const lagen = { dinos: document.getElementById('laag-dinos') };
-document.getElementById('dinoknop').addEventListener('click', () => {
-  vulDinolijst(
-    document.getElementById('dinolijst'),
-    document.getElementById('dinoregel'),
-    (cp) => vanWortel(`assets/img/${cp}.svg`)
-  );
-  toonLaag(lagen, 'dinos');
-});
-document.getElementById('dinos-klaar').addEventListener('click', () => toonLaag(lagen, null));
-
+zetKnopIconen();
 registreerServiceWorker();

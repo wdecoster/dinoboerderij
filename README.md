@@ -19,6 +19,9 @@ woord nog niet kan lezen. Dat stuurt bijna elke keuze:
   ze zetten je nooit terug naar af. Vastlopen is het enige wat een kind afhaakt.
 - **De letter draagt de betekenis, kleur is versiering.** Op kleur alleen kun je
   geen enkel spel spelen.
+- **Elke knop heeft een plaatje.** Voor wie niet leest is het icoontje het echte
+  label — het huisje ís "terug naar het menu". Zet ze in de HTML met
+  `data-icoon="<codepoint>"`; `js/core/knoppen.js` hangt het plaatje ervoor.
 - **Plaatjes zijn dubbelzinnig, en dat is het echte risico.** ⚽ is net zo goed
   "voetbal" als "bal"; 🕊️ is voor de meeste kinderen gewoon "vogel". Elk spel
   heeft daarom een lijst waarin je per plaatje aan- en uitzet wat het kind het
@@ -109,8 +112,18 @@ mammoet, dodo) in acht kleuren, dus 72 verschillende beesten. De kleur wordt met
 `hue-rotate` uit hetzelfde plaatje gedraaid en kost dus geen extra bestand. In de
 Woordbouwer lopen de verdiende dino's rond naast het speelveld.
 
-De verzameling staat in de browseropslag, per apparaat. Hij is te bekijken via
-**mijn dino's** in het menu en in elk spel.
+## De boerderij
+
+`boerderij/` is geen spel maar de plek waar je ziet wat je hebt: alle verdiende
+dino's lopen daar rond over de wei, achter een hek, langs een vijver. Tik er een
+aan en hij zegt hoe hij heet. De knop **lijst** toont dezelfde kudde als
+overzicht met namen en aantallen.
+
+Er lopen er hoogstens veertig tegelijk in beeld; daarboven wordt het een
+mierenhoop. De teller vertelt hoeveel je er in totaal hebt.
+
+De verzameling staat in de browseropslag, per apparaat. De boerderij is
+bereikbaar vanuit het menu en vanaf het startscherm van elk spel.
 
 Dat de monsters in Rijmen géén dino's zijn, is met opzet: hetzelfde beestje kan
 niet in het ene spel een prijs zijn en in het andere een gevaar. Een kind kijkt
@@ -128,6 +141,7 @@ minuten op.
 | `rijmparen.js` | rijmparen met hun rijmklank (Rijmen) | 26 |
 | `spelwoorden.js` | klankzuivere woorden van 3–5 letters (Woordbouwer) | 85 |
 | `dinos.js` | de soorten en kleuren om te verzamelen | 9 × 8 |
+| `iconen.js` | de plaatjes op de knoppen | 11 |
 
 Rijmparen hebben een veld `klank`. Twee paren met dezelfde klank mogen nooit
 samen in één veld liggen — "tand/hand" en "mand/hand" zouden dan allebei kloppen
@@ -174,7 +188,8 @@ werkt hij offline.
 ## Structuur
 
 ```
-index.html              het menu en de dinoverzameling
+index.html              het menu
+boerderij/              de wei waar je dino's rondlopen
 js/games.js             het register van spellen
 js/data/                de woordenbanken en de dinosoorten
 js/core/                gedeelde onderdelen (zie hieronder)
@@ -189,8 +204,9 @@ sw.js                   offline kunnen spelen
 `js/core/` bevat wat alle spellen delen: `viewport.js` (schermmaat en
 tekenassen), `loop.js` (vaste tijdstap), `input.js` (tikken en links/rechts),
 `toetsen.js` (ingedrukte pijltjes), `storage.js` (onthouden), `plaatjes.js`
-(plaatjes vooraf laden), `pad.js` (paden vanaf de site-root), `ui.js` (schermen)
-en `verzameling.js` (de gedeelde kudde).
+(plaatjes vooraf laden), `pad.js` (paden vanaf de site-root), `ui.js` (schermen),
+`knoppen.js` (de icoontjes op de knoppen) en `verzameling.js` (de gedeelde
+kudde).
 
 ## Een spel toevoegen
 
@@ -203,10 +219,10 @@ en `verzameling.js` (de gedeelde kudde).
 
 Er is geen testrunner; wel twee dingen die je los kunt draaien:
 
-- `games/rijm/?test` en `games/bouw/?test` zetten de spelstaat op `window.__rijm`
-  respectievelijk `window.__bouw`, zodat je van buitenaf kunt nakijken of
-  oppakken, rijmen, afleiders en dino's doen wat ze moeten doen. Zonder die
-  parameter gebeurt er niets.
+- `games/rijm/?test`, `games/bouw/?test` en `boerderij/?test` zetten hun staat op
+  `window.__rijm`, `window.__bouw` en `window.__boerderij`, zodat je van
+  buitenaf kunt nakijken of oppakken, rijmen, afleiders en de rondlopende kudde
+  doen wat ze moeten doen. Zonder die parameter gebeurt er niets.
 - De niveaugenerator van Rijmen (`games/rijm/veld.js`) garandeert dat elk veld
   uit te spelen is: elk voorwerp bereikbaar, niets in een berg. Dat is de
   belangrijkste eigenschap van het hele project — een onspeelbaar veld is voor
