@@ -242,6 +242,7 @@ js/core/                gedeelde onderdelen (zie hieronder)
 games/sorteer/          beginletters sorteren
 games/rijm/             rijmen op een veld met monsters
 games/bouw/             woorden bouwen uit letters
+games/voeren/           een woord lezen en het goede ding geven
 assets/img/             de plaatjes (Twemoji, zie CREDITS.md)
 tools/                  eenmalige scripts
 sw.js                   offline kunnen spelen
