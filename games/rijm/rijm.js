@@ -642,14 +642,15 @@ const lus = maakLus(stap, teken);
 
 function bouwMonsterkeuze() {
   el.monsterkeuze.replaceChildren();
-  for (const [aan, tekst] of [
-    [true, 'met monsters'],
-    [false, 'zonder monsters'],
+  for (const [aan, tekst, icoon] of [
+    [true, 'met monsters', '1f47e'],
+    [false, 'zonder monsters', '1f6ab'],
   ]) {
     const knop = document.createElement('button');
     knop.type = 'button';
     knop.className = 'paar paar--woord';
     knop.textContent = tekst;
+    knop.dataset.icoon = icoon;
     knop.setAttribute('aria-pressed', String(aan === spel.monstersAan));
     knop.addEventListener('click', () => {
       spel.monstersAan = aan;
@@ -658,6 +659,9 @@ function bouwMonsterkeuze() {
     });
     el.monsterkeuze.append(knop);
   }
+  // Deze knoppen worden in JS gemaakt, dus na élke herbouw opnieuw voorzien van
+  // hun plaatje — de ronde bij het opstarten heeft ze nog niet gezien.
+  zetKnopIconen(el.monsterkeuze);
 }
 
 function bouwAantallen() {

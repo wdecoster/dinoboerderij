@@ -315,6 +315,21 @@ h2 {
 /* "vanzelf" is een woord, geen losse letter — dat past niet op letterformaat */
 .paar--woord {
   font-size: 1.35rem;
+  align-items: center; /* niet op de basislijn: daar hangt een plaatje scheef */
+  gap: 0.5em;
+}
+
+.paar .knop__icoon {
+  width: 1.4em;
+  height: 1.4em;
+}
+
+/* Een gekozen knop wordt donkerblauw, en een donker plaatje verdwijnt daarin.
+   Een licht schijfje eronder houdt elk icoontje leesbaar. */
+.paar[aria-pressed="true"] .knop__icoon {
+  background: var(--papier);
+  border-radius: 50%;
+  padding: 0.1em;
 }
 
 .paar__links {

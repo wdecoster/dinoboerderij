@@ -348,7 +348,10 @@ function bouwLengtes() {
     knop.type = 'button';
     knop.className = 'paar';
     knop.textContent = optie === 'auto' ? 'vanzelf' : String(optie);
-    if (optie === 'auto') knop.classList.add('paar--woord');
+    if (optie === 'auto') {
+      knop.classList.add('paar--woord');
+      knop.dataset.icoon = '1fa84'; // toverstok: het spel kiest zelf
+    }
     knop.setAttribute('aria-pressed', String(optie === spel.lengte));
     knop.addEventListener('click', () => {
       spel.lengte = optie;
@@ -358,6 +361,7 @@ function bouwLengtes() {
     });
     el.lengtes.append(knop);
   }
+  zetKnopIconen(el.lengtes);
 }
 
 function bouwWoordenlijst() {

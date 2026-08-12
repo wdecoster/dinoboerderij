@@ -4,7 +4,7 @@
 //
 // Nieuwe versie uitrollen = VERSIE hieronder ophogen.
 
-const VERSIE = 'v8';
+const VERSIE = 'v9';
 const CACHE = `leesspel-${VERSIE}`;
 
 // De schil: alles wat nodig is om de hub en de spellen te starten.

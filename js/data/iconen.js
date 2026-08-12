@@ -21,6 +21,9 @@ export const ICONEN = {
   boerderij: '1f3e1', // huis met tuin
   wissen: '1f5d1', // prullenbak
   waarschuwing: '26a0',
+  monster: '1f47e', // met monsters
+  geenMonster: '1f6ab', // zonder monsters
+  vanzelf: '1fa84', // toverstok: het spel kiest zelf
 };
 
 export function icoonCodepoints() {
