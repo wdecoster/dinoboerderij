@@ -124,8 +124,23 @@ wat hij kan:
 | later | `boom` naast `boot` en `boek` | het woord tot het eind uitlezen |
 
 Zo begint het bij wat hij al kan en eindigt het bij `oog`/`oor`, `hand`/`mand`,
-`bed`/`bel`. Fout kost niets: het ding wiebelt en blijft liggen. Elke vijf keer
-goed komt er een dino bij.
+`bed`/`bel`.
+
+**Gokken levert niets op.** Zonder rem kun je alle kaartjes achter elkaar
+aantikken tot er een blijft plakken, en dan speel je het spel uit zonder één
+woord te lezen. Daarom:
+
+- Grijp je ernaast, dan verschijnt het wóórd van wat je gaf op dat kaartje. "Je
+  vroeg kip, ik gaf koffer" is de enige plek in dit spel waar twee woorden naast
+  elkaar staan, en dus waar er iets te leren valt.
+- Daarna kun je even niets aantikken: 1,3 seconde, bij de tweede misser in
+  dezelfde beurt 2,5 en daarna 4. Eén vergissing kost bijna niets, maar alle
+  kaartjes afgaan wordt echt traag.
+- Een beurt met een misser telt niet mee — niet voor de dino en niet voor de
+  moeilijkheid. Je maakt de beurt gewoon af, er gaat niets verloren, maar je
+  gokt je ook niet omhoog naar woorden die je niet kunt lezen.
+
+Elke vijf foutloze beurten komt er een dino bij.
 
 Werkt met tikken, dus ook op een tablet.
 

@@ -21,9 +21,15 @@ import {
   LENGTES,
 } from '../../js/data/spelwoorden.js';
 import { verdienDino, leesVerzameling, tintFilter } from '../../js/core/verzameling.js';
-import { vierDino, VIERTIJD } from '../../js/core/vieren.js';
+import { vierDino } from '../../js/core/vieren.js';
 import { SOORTEN, TINTEN } from '../../js/data/dinos.js';
-import { GOED_PER_DINO, niveauVoor, MAX_GEHEUGEN, STANDAARD_LENGTE } from './config.js';
+import {
+  GOED_PER_DINO,
+  MISSER_PAUZES,
+  niveauVoor,
+  MAX_GEHEUGEN,
+  STANDAARD_LENGTE,
+} from './config.js';
 
 const el = {
   spel: document.getElementById('spel'),
@@ -53,6 +59,8 @@ const spel = {
   lengte: opslag.lees('lengte', STANDAARD_LENGTE), // 'auto' of een getal
   woord: null,
   recent: [],
+  missersDezeRonde: 0, // gegokt? dan telt deze beurt niet mee, en de pauze loopt op
+  geblokkeerd: false, // korte pauze na een misser
   bezig: false,
 };
 
@@ -162,6 +170,8 @@ function nieuweRonde() {
 
   spel.recent.push(doel.woord);
   spel.woord = doel;
+  spel.missersDezeRonde = 0;
+  spel.geblokkeerd = false;
 
   const niveau = huidigNiveau();
   const afleiders = kiesAfleiders(doel, niveau.keuzes - 1, niveau.afleiders);
@@ -181,8 +191,14 @@ function nieuweRonde() {
     const img = document.createElement('img');
     img.src = plaatjePad(kandidaat.cp);
     img.alt = '';
-    knop.append(img);
 
+    // Staat er alleen als hij ernaast grijpt: dan zie je wát je gaf.
+    const woord = document.createElement('span');
+    woord.className = 'keuze__woord';
+    woord.textContent = kandidaat.woord;
+    woord.hidden = true;
+
+    knop.append(img, woord);
     knop.addEventListener('click', () => probeer(kandidaat, knop));
     el.keuzes.append(knop);
   }
@@ -191,19 +207,22 @@ function nieuweRonde() {
 }
 
 function probeer(kandidaat, knop) {
-  if (!spel.bezig) return;
+  if (!spel.bezig || spel.geblokkeerd) return;
 
   if (kandidaat.woord !== spel.woord.woord) {
-    // Fout kost niets: het ding wiebelt en blijft liggen.
-    knop.classList.remove('keuze--mis');
-    void knop.offsetWidth;
-    knop.classList.add('keuze--mis');
+    misgegrepen(knop);
     return;
   }
 
   spel.bezig = false;
-  const goed = aantalGoed() + 1;
-  opslag.schrijf('goed', goed);
+
+  // Een beurt waarin gegokt is telt niet mee: niet voor de dino en niet voor de
+  // moeilijkheid. Er gaat niets verloren — hij maakt de beurt gewoon af — maar
+  // gokken levert ook niets op. En zo gokt hij zich niet omhoog naar woorden
+  // die hij niet kan lezen.
+  const telt = spel.missersDezeRonde === 0;
+  const goed = aantalGoed() + (telt ? 1 : 0);
+  if (telt) opslag.schrijf('goed', goed);
 
   // het hapje vliegt naar de dino
   knop.classList.add('keuze--op');
@@ -214,17 +233,47 @@ function probeer(kandidaat, knop) {
 
   // Bij de vijfde: laat zien wát je verdiend hebt. De stipjes liepen vol en
   // waren daarna weer leeg, en daartussen zag je niets.
-  const komtErEen = goed % GOED_PER_DINO === 0;
-  if (komtErEen) vierDino(verdienDino());
+  const komtErEen = telt && goed % GOED_PER_DINO === 0;
+  // De viering meldt zelf wanneer hij klaar is; op een traag toestel duurt dat
+  // langer dan een vaste tijd op de klok.
+  const gevierd = komtErEen ? vierDino(verdienDino()) : new Promise((r) => setTimeout(r, 800));
 
-  setTimeout(
-    () => {
-      if (!lagen.start.hidden || !lagen.woorden.hidden) return;
-      spel.bezig = true;
-      nieuweRonde();
-    },
-    komtErEen ? VIERTIJD : 800
-  );
+  gevierd.then(() => {
+    if (!lagen.start.hidden || !lagen.woorden.hidden) return;
+    spel.bezig = true;
+    nieuweRonde();
+  });
+}
+
+/**
+ * Ernaast gegrepen: laat zien wát hij gaf, en houd de kaartjes even dicht.
+ *
+ * Het woord op het kaartje is het hele punt. "Je vroeg boom, ik gaf boot" is de
+ * enige plek in dit spel waar hij twee woorden naast elkaar ziet.
+ */
+function misgegrepen(knop) {
+  spel.missersDezeRonde += 1;
+  spel.geblokkeerd = true;
+
+  const pauze =
+    MISSER_PAUZES[Math.min(spel.missersDezeRonde - 1, MISSER_PAUZES.length - 1)];
+
+  knop.classList.remove('keuze--mis');
+  void knop.offsetWidth;
+  knop.classList.add('keuze--mis');
+
+  const woord = knop.querySelector('.keuze__woord');
+  if (woord) woord.hidden = false;
+
+  el.dino.classList.remove('voeren__beest--nee');
+  void el.dino.offsetWidth;
+  el.dino.classList.add('voeren__beest--nee');
+
+  setTimeout(() => {
+    if (woord) woord.hidden = true;
+    knop.classList.remove('keuze--mis');
+    spel.geblokkeerd = false;
+  }, pauze);
 }
 
 /** Stipjes: hoeveel keer goed tot de volgende dino? */

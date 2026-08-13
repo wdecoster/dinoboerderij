@@ -34,9 +34,13 @@ export function vierDino(dino) {
 
   const beest = document.createElement('img');
   beest.className = 'viering__beest';
-  beest.src = vanWortel(`assets/img/${dino.soort.cp}.svg`);
   beest.alt = '';
   beest.style.filter = tintFilter(dino.tint);
+  // Pas laten lopen als het plaatje er echt is: anders loopt op een traag
+  // toestel een leeg vakje het scherm uit.
+  beest.addEventListener('load', () => laag.classList.add('viering--klaar'), { once: true });
+  beest.addEventListener('error', () => laag.classList.add('viering--klaar'), { once: true });
+  beest.src = vanWortel(`assets/img/${dino.soort.cp}.svg`);
 
   const naam = document.createElement('p');
   naam.className = 'viering__naam';
@@ -57,6 +61,23 @@ export function vierDino(dino) {
   laag.append(loper, naam, waarheen);
   document.body.append(laag);
 
-  setTimeout(() => laag.remove(), VIERTIJD);
-  return VIERTIJD;
+  return new Promise((klaar) => {
+    let afgerond = false;
+    const afronden = () => {
+      if (afgerond) return;
+      afgerond = true;
+      laag.remove();
+      klaar();
+    };
+
+    // Opruimen als het wéglopen klaar is, niet na een vaste tijd op de klok.
+    // Op een trage tablet begint de animatie later dan de timer denkt, en dan
+    // haalde die de dino weg voordat je hem goed en wel gezien had.
+    loper.addEventListener('animationend', afronden);
+
+    // Vangnet: geen animaties (uitgezet in de systeeminstellingen), of een
+    // toestel dat zo druk is dat animationend nooit komt.
+    const rustig = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    setTimeout(afronden, rustig ? VIERTIJD : VIERTIJD * 2);
+  });
 }

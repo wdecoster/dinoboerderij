@@ -681,7 +681,10 @@ h2 {
 /* Ligt over alles heen maar vangt geen tikken: het is een moment, geen scherm
    dat je moet wegklikken. Het waas eronder zorgt dat de dino ook op een druk
    speelveld goed te zien is. */
+/* De animaties beginnen pas als het plaatje geladen is; tot dan staat er niets
+   in beeld. Zo zie je nooit een leeg vakje weglopen. */
 .viering {
+  visibility: hidden;
   position: fixed;
   inset: 0;
   z-index: 20;
@@ -693,6 +696,19 @@ h2 {
   pointer-events: none;
   background: rgba(253, 246, 227, 0.82);
   animation: vieringWaas 2.4s ease-in-out forwards;
+}
+
+.viering--klaar {
+  visibility: visible;
+}
+
+/* Animaties pas aanzetten zodra het plaatje er is. */
+.viering:not(.viering--klaar) .viering__loper,
+.viering:not(.viering--klaar) .viering__beest,
+.viering:not(.viering--klaar) .viering__vonk,
+.viering:not(.viering--klaar) .viering__naam,
+.viering:not(.viering--klaar) .viering__waarheen {
+  animation: none;
 }
 
 @keyframes vieringWaas {
@@ -837,6 +853,18 @@ h2 {
   animation: hap 0.5s ease-out;
 }
 
+/* nee schudden: dit was niet wat ik vroeg */
+.voeren__beest--nee {
+  animation: neeSchudden 0.45s ease-in-out;
+}
+
+@keyframes neeSchudden {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-0.5rem); }
+  50% { transform: translateX(0.5rem); }
+  80% { transform: translateX(-0.25rem); }
+}
+
 @keyframes hap {
   0% { transform: scale(1); }
   35% { transform: scale(1.25) rotate(-5deg); }
@@ -879,6 +907,25 @@ h2 {
 .keuze img {
   width: 72%;
   height: 72%;
+}
+
+/* Het woord van wat hij gaf, alleen zichtbaar na een misser. */
+.keuze__woord {
+  position: absolute;
+  bottom: -0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.15em 0.6em;
+  border-radius: 999px;
+  background: var(--fout);
+  color: var(--papier);
+  font-size: 0.95rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.keuze {
+  position: relative;
 }
 
 .keuze--mis {

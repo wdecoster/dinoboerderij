@@ -13,7 +13,7 @@ import { zetKnopIconen } from '../../js/core/knoppen.js';
 import { vanWortel } from '../../js/core/pad.js';
 import { woordenMetLetter, plaatjePad, standaardAan } from '../../js/data/woorden.js';
 import { verdienDino } from '../../js/core/verzameling.js';
-import { vierDino, VIERTIJD } from '../../js/core/vieren.js';
+import { vierDino } from '../../js/core/vieren.js';
 import { paren, STANDAARD_PAAR, moeilijkheid } from './paren.js';
 
 // --- vaste maten van het speelveld (hoogte = 100 eenheden) ----------------
@@ -213,10 +213,9 @@ function verwerkAankomst(item) {
       // Het spel loopt in de tijd door, dus even stilzetten: anders valt er van
       // alles terwijl hij naar zijn nieuwe dino kijkt.
       lus.stop();
-      vierDino(dino);
-      setTimeout(() => {
+      vierDino(dino).then(() => {
         if (spel.bezig) lus.start();
-      }, VIERTIJD);
+      });
     }
     if (spel.goedOpRij >= moeilijkheid.goedVoorOmhoog) {
       spel.goedOpRij = 0;
