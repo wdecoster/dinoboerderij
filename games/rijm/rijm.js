@@ -8,6 +8,7 @@
 import { maakViewport } from '../../js/core/viewport.js';
 import { maakLus } from '../../js/core/loop.js';
 import { maakToetsen } from '../../js/core/toetsen.js';
+import { maakWijzer } from '../../js/core/wijzen.js';
 import { maakOpslag } from '../../js/core/storage.js';
 import { laadPlaatje } from '../../js/core/plaatjes.js';
 import { toonLaag, registreerServiceWorker } from '../../js/core/ui.js';
@@ -82,6 +83,7 @@ const lagen = {
 const viewport = maakViewport(el.doek);
 const opslag = maakOpslag('rijm');
 const toetsen = maakToetsen();
+const wijzer = maakWijzer(el.doek);
 
 // --- plaatjes -------------------------------------------------------------
 
@@ -113,6 +115,8 @@ const spel = {
   fouten: 0,
   vonken: [],
   tijd: 0,
+  loopdoel: null, // waar hij naartoe loopt als je hebt getikt
+  loopkaart: null, // routekaart naar dat doel
   raaktRechts: null, // waar hij nu bij staat, voor het oplichtende kaartje
   geprobeerd: null, // dit doel is al geprobeerd; pas opnieuw na weglopen
   netNeergelegd: null, // dit heeft hij net verwisseld; niet meteen terugpakken
@@ -175,6 +179,8 @@ async function startSpel() {
   spel.fouten = 0;
   spel.vonken = [];
   spel.tijd = 0;
+  spel.loopdoel = null;
+  spel.loopkaart = null;
   spel.raaktRechts = null;
   spel.geprobeerd = null;
   spel.netNeergelegd = null;
@@ -336,7 +342,44 @@ function stap(dt) {
   // lopen
   const vorigeX = spel.speler.x;
   const vorigeY = spel.speler.y;
-  const richting = toetsen.richting();
+  let richting = toetsen.richting();
+
+  // Getikt of gesleept? Dan loopt hij daar zelf naartoe, netjes om de bergen
+  // heen. Zo is het spel ook op een tablet te doen. Pijltjes hebben voorrang:
+  // wie zelf stuurt, wil niet dat het spel het overneemt.
+  if (richting.x !== 0 || richting.y !== 0) {
+    spel.loopdoel = null;
+  } else {
+    const getikt = wijzer.doel();
+    if (getikt) {
+      const doel = {
+        x: getikt.x * VELD.breedte,
+        y: getikt.y * VELD.hoogte,
+      };
+      const ver =
+        !spel.loopdoel || Math.hypot(doel.x - spel.loopdoel.x, doel.y - spel.loopdoel.y) > 2;
+      if (ver) {
+        spel.loopdoel = doel;
+        spel.loopkaart = veld.maakAfstandsveld(doel.x, doel.y, SPELER.straal);
+      }
+    }
+    if (spel.loopdoel) {
+      const dx = spel.loopdoel.x - spel.speler.x;
+      const dy = spel.loopdoel.y - spel.speler.y;
+      const afstand = Math.hypot(dx, dy);
+      if (afstand < 1.5) {
+        spel.loopdoel = null;
+        wijzer.wis();
+      } else {
+        const langsDeKaart =
+          afstand > 6 && spel.loopkaart
+            ? veld.stapRichting(spel.loopkaart, spel.speler.x, spel.speler.y)
+            : null;
+        richting = langsDeKaart ?? { x: dx / afstand, y: dy / afstand };
+      }
+    }
+  }
+
   if (richting.x !== 0) spel.speler.kijktLinks = richting.x < 0;
   if (richting.x !== 0 || richting.y !== 0) {
     const nieuw = veld.loop(
@@ -352,6 +395,18 @@ function stap(dt) {
 
   // Stilstaan is het signaal "ik bedoel dít". Langslopen is dat niet.
   const verplaatst = Math.hypot(spel.speler.x - vorigeX, spel.speler.y - vorigeY);
+  // Komt hij er onderweg niet langs, dan het doel loslaten: beter stilstaan dan
+  // eindeloos tegen een berg aan duwen.
+  if (spel.loopdoel && verplaatst < 0.01) {
+    spel.vastTeller = (spel.vastTeller ?? 0) + 1;
+    if (spel.vastTeller > 30) {
+      spel.loopdoel = null;
+      wijzer.wis();
+      spel.vastTeller = 0;
+    }
+  } else {
+    spel.vastTeller = 0;
+  }
   spel.stilTijd = verplaatst < 0.02 ? spel.stilTijd + dt : 0;
   const staatStil = spel.stilTijd >= VOORWERP.stilTijd;
 

@@ -127,10 +127,11 @@ h2 {
   font-size: 1.05rem;
 }
 
-.hub__kudde {
-  text-align: center;
-  margin: 2rem 0 0;
+.hub__kudde-kop {
+  margin: 2.5rem 0 0.75rem;
 }
+
+
 
 .tegels {
   display: grid;
@@ -281,6 +282,74 @@ h2 {
     top: auto;
     bottom: 0.75rem;
   }
+}
+
+/* --- wisselen tussen plekken -------------------------------------------- */
+
+.plekken {
+  position: fixed;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.laag .plekken {
+  position: static;
+  transform: none;
+  margin-top: 0.5rem;
+}
+
+/* In het menu staan ze gewoon in de bladzijde, niet vastgeplakt onderaan.
+   Dubbele klasse, anders wint de regel hierboven op volgorde. */
+.plekken.plekken--hub {
+  position: static;
+  transform: none;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.plekknop {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  border: 2px solid var(--rand);
+  border-radius: 999px;
+  background: var(--papier);
+  color: var(--inkt-zacht);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+
+.plekknop--hier {
+  border-color: var(--inkt);
+  color: var(--inkt);
+}
+
+.plekknop img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* het aantal dino's dat daar rondloopt */
+.plekknop__aantal {
+  min-width: 1.4rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: var(--rand);
+  color: var(--inkt);
+  text-align: center;
+}
+
+.plekknop--hier .plekknop__aantal {
+  background: var(--inkt);
+  color: var(--papier);
 }
 
 /* --- letterparen kiezen ------------------------------------------------- */

@@ -5,6 +5,8 @@ import { spellen } from './games.js';
 import { vanWortel } from './core/pad.js';
 import { registreerServiceWorker } from './core/ui.js';
 import { zetKnopIconen } from './core/knoppen.js';
+import { PLEKKEN } from './data/plekken.js';
+import { aantalPerPlek } from './core/verzameling.js';
 
 const lijst = document.getElementById('tegels');
 
@@ -33,6 +35,30 @@ for (const spel of spellen) {
   tegel.append(plaatje, naam, uitleg);
   item.append(tegel);
   lijst.append(item);
+}
+
+// De plekken met hoeveel dino's er lopen: zo zie je vanuit het menu meteen waar
+// er iets bij gekomen is.
+const telling = aantalPerPlek();
+const plekkenLijst = document.getElementById('plekken');
+for (const plek of PLEKKEN) {
+  const link = document.createElement('a');
+  link.className = 'plekknop';
+  link.href = vanWortel(plek.pad);
+
+  const img = document.createElement('img');
+  img.src = vanWortel(`assets/img/${plek.icoon}.svg`);
+  img.alt = '';
+
+  const naam = document.createElement('span');
+  naam.textContent = plek.naam;
+
+  const aantal = document.createElement('span');
+  aantal.className = 'plekknop__aantal';
+  aantal.textContent = telling[plek.id] ?? 0;
+
+  link.append(img, naam, aantal);
+  plekkenLijst.append(link);
 }
 
 zetKnopIconen();

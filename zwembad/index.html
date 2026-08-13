@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Mijn boerderij — Dinoboerderij</title>
+    <title>Het zwembad — Dinoboerderij</title>
     <link rel="stylesheet" href="../css/base.css" />
     <link rel="manifest" href="../manifest.webmanifest" />
     <link rel="icon" href="../assets/icon-192.png" />
@@ -11,7 +11,7 @@
   </head>
   <body>
     <main class="spel">
-      <canvas id="doek" class="spel__doek spel__doek--veld" aria-label="Mijn boerderij met je dino's"></canvas>
+      <canvas id="doek" class="spel__doek spel__doek--veld" aria-label="Het zwembad met je dino's"></canvas>
     </main>
 
     <a class="knop knop--stil terug" href="../index.html" data-icoon="1f3e0">terug naar het menu</a>
@@ -23,7 +23,7 @@
 
     <!-- de lijst met namen en aantallen -->
     <section id="laag-lijst" class="laag" hidden>
-      <h2 class="laag__titel">Mijn boerderij</h2>
+      <h2 class="laag__titel">Het zwembad</h2>
       <p id="lijstregel" class="laag__regel"></p>
       <ul id="dinolijst" class="dinolijst"></ul>
       <button id="lijst-klaar" class="knop" type="button" data-icoon="2705">Klaar</button>
@@ -60,7 +60,7 @@
 
     <script type="module">
       import { maakPlekScene } from '../js/core/plekscene.js';
-      maakPlekScene('boerderij');
+      maakPlekScene('zwembad');
     </script>
   </body>
 </html>

@@ -1,21 +1,21 @@
-// De boerderij: alle dino's die in de spellen verdiend zijn, lopen hier rond.
+// Een plek waar dino's rondlopen: de boerderij, het pretpark of het zwembad.
 //
-// Dit is geen spel — er valt niets te winnen en niets fout te doen. Het is de
-// plek waar je ziet wat je hebt. Tik op een dino en hij zegt hoe hij heet.
+// Dit is geen spel — er valt niets te winnen en niets fout te doen. Het is waar
+// je ziet wat je hebt. Tik op een dino en hij zegt hoe hij heet.
+//
+// Alle plekken draaien op deze ene scène; wat ze onderscheidt (kleur, decor,
+// water, hek) staat in js/data/plekken.js. Zo kost een vierde plek een paar
+// regels data en geen nieuwe code.
 
-import { maakViewport } from '../js/core/viewport.js';
-import { maakLus } from '../js/core/loop.js';
-import { laadPlaatje } from '../js/core/plaatjes.js';
-import { toonLaag, registreerServiceWorker } from '../js/core/ui.js';
-import { zetKnopIconen } from '../js/core/knoppen.js';
-import { vanWortel } from '../js/core/pad.js';
-import {
-  leesVerzameling,
-  vulDinolijst,
-  wisVerzameling,
-  wisVoortgang,
-} from '../js/core/verzameling.js';
-import { SOORTEN } from '../js/data/dinos.js';
+import { maakViewport } from './viewport.js';
+import { maakLus } from './loop.js';
+import { laadPlaatje } from './plaatjes.js';
+import { toonLaag, registreerServiceWorker } from './ui.js';
+import { zetKnopIconen } from './knoppen.js';
+import { vanWortel } from './pad.js';
+import { dinosOpPlek, vulDinolijst, wisVerzameling, wisVoortgang } from './verzameling.js';
+import { SOORTEN } from '../data/dinos.js';
+import { plekVan, PLEKKEN } from '../data/plekken.js';
 
 const VELD = { breedte: 150, hoogte: 100 };
 
@@ -25,39 +25,35 @@ const WEI = { links: 8, rechts: 142, boven: 20, onder: 92 };
 const DINO_MAAT = 8;
 const MAX_ZICHTBAAR = 40; // meer dan dit wordt een mierenhoop
 
+/**
+ * Zet een plek in elkaar. `plekId` bepaalt kleur, decor en naam.
+ */
+export async function maakPlekScene(plekId) {
+const PLEK = plekVan(plekId);
+const DECOR = PLEK.decor;
+const VIJVER = PLEK.water;
+
 const KLEUR = {
   buiten: '#fdf6e3',
-  gras: '#e3f0d5',
-  grasDonker: '#d5e8c4',
+  gras: PLEK.grond,
+  grasDonker: PLEK.grondVlek,
   pad: '#efe4c9',
   hek: '#b98d5f',
   hekDonker: '#9c7146',
-  water: '#bfe3f2',
-  waterRand: '#9ccde2',
+  water: PLEK.water?.kleur ?? '#bfe3f2',
+  waterRand: PLEK.water?.rand ?? '#9ccde2',
   inkt: '#16324f',
 };
 
 const font = (maat) => `800 ${maat}px ui-rounded, "Segoe UI", Ubuntu, system-ui, sans-serif`;
 
-// Vast decor: altijd op dezelfde plek, zodat de boerderij herkenbaar blijft.
-const DECOR = [
-  { cp: '1f3e1', x: 24, y: 15, maat: 20 }, // het huis
-  { cp: '1f333', x: 128, y: 16, maat: 15 },
-  { cp: '1f333', x: 112, y: 13, maat: 11 },
-  { cp: '1f33b', x: 46, y: 24, maat: 7 },
-  { cp: '1f33c', x: 54, y: 21, maat: 6 },
-  { cp: '1f33c', x: 136, y: 62, maat: 6 },
-  { cp: '1f344', x: 18, y: 74, maat: 6 },
-  { cp: '1faa8', x: 96, y: 84, maat: 9 },
-  { cp: '1f335', x: 138, y: 34, maat: 9 },
-];
-
-const VIJVER = { x: 34, y: 74, rx: 17, ry: 9 };
 
 const el = {
   doek: document.getElementById('doek'),
   teller: document.getElementById('teller'),
   lijstknop: document.getElementById('lijstknop'),
+  plekken: document.getElementById('plekken'),
+  plekkenLeeg: document.getElementById('plekken-leeg'),
   lijstKlaar: document.getElementById('lijst-klaar'),
   dinolijst: document.getElementById('dinolijst'),
   lijstregel: document.getElementById('lijstregel'),
@@ -99,19 +95,18 @@ function nieuwDoel(dino) {
 }
 
 function bouwKudde() {
-  const verzameling = leesVerzameling();
+  const hier = dinosOpPlek(PLEK.id);
   kudde.length = 0;
 
-  for (const [sleutel, aantal] of Object.entries(verzameling)) {
-    const [cp, tint] = sleutel.split('|');
-    const soort = SOORTEN.find((s) => s.cp === cp);
+  for (const beest of hier) {
+    const soort = SOORTEN.find((s) => s.cp === beest.cp);
     if (!soort) continue;
 
-    for (let i = 0; i < aantal; i++) {
+    {
       if (kudde.length >= MAX_ZICHTBAAR) break;
       const dino = {
-        cp,
-        tint: Number(tint),
+        cp: beest.cp,
+        tint: Number(beest.tint),
         naam: soort.naam,
         x: willekeurig(WEI.links, WEI.rechts),
         y: willekeurig(WEI.boven, WEI.onder),
@@ -126,9 +121,9 @@ function bouwKudde() {
     }
   }
   return {
-    totaal: Object.values(verzameling).reduce((s, n) => s + n, 0),
-    soorten: new Set(Object.keys(verzameling).map((k) => k.split('|')[0])).size,
-    varianten: Object.keys(verzameling).length,
+    totaal: hier.length,
+    soorten: new Set(hier.map((d) => d.cp)).size,
+    varianten: new Set(hier.map((d) => `${d.cp}|${d.tint}`)).size,
   };
 }
 
@@ -229,7 +224,7 @@ function tekenGrond(ctx) {
     ctx.fill();
   }
 
-  // vijver
+  if (!VIJVER) return;
   ctx.fillStyle = KLEUR.waterRand;
   ctx.beginPath();
   ctx.ellipse(VIJVER.x, VIJVER.y, VIJVER.rx + 1, VIJVER.ry + 1, 0, 0, Math.PI * 2);
@@ -249,7 +244,7 @@ function teken() {
   veldStelsel(ctx);
 
   tekenGrond(ctx);
-  tekenHek(ctx);
+  if (PLEK.hek) tekenHek(ctx);
   for (const ding of DECOR) {
     tekenPlaatje(ctx, plaatjeVan(ding.cp), ding.x, ding.y, ding.maat);
   }
@@ -319,7 +314,7 @@ el.doek.addEventListener('pointerdown', (ev) => {
 // --- schermen -------------------------------------------------------------
 
 el.lijstknop.addEventListener('click', () => {
-  vulDinolijst(el.dinolijst, el.lijstregel, plaatjePad);
+  vulDinolijst(el.dinolijst, el.lijstregel, plaatjePad, PLEK.id);
   toonLaag(lagen, 'lijst');
 });
 el.lijstKlaar.addEventListener('click', () => toonLaag(lagen, null));
@@ -363,16 +358,22 @@ document.addEventListener('visibilitychange', () => {
  */
 async function toonKudde() {
   const telling = bouwKudde();
+  bouwPlekknoppen(await import('./verzameling.js').then((m) => m.aantalPerPlek()));
 
   if (telling.totaal === 0) {
     lus.stop();
     el.teller.hidden = true;
+    await laadPlaatjes([...DECOR.map((d) => d.cp), ...PLEKKEN.map((p) => p.icoon)]);
     toonLaag(lagen, 'leeg');
     teken();
     return;
   }
 
-  await laadPlaatjes([...DECOR.map((d) => d.cp), ...new Set(kudde.map((d) => d.cp))]);
+  await laadPlaatjes([
+    ...DECOR.map((d) => d.cp),
+    ...PLEKKEN.map((p) => p.icoon),
+    ...new Set(kudde.map((d) => d.cp)),
+  ]);
 
   const verborgen = telling.totaal - kudde.length;
   el.teller.hidden = false;
@@ -388,6 +389,39 @@ async function toonKudde() {
   return telling;
 }
 
+/**
+ * Knoppen naar de andere plekken, met erbij hoeveel dino's daar lopen.
+ *
+ * Zonder dat zou je maar moeten raden waar je nieuwe dino gebleven is.
+ */
+function bouwPlekknoppen(telling) {
+  for (const houder of [el.plekken, el.plekkenLeeg]) {
+    if (!houder) continue;
+    houder.replaceChildren();
+    for (const plek of PLEKKEN) {
+      const hier = plek.id === PLEK.id;
+      const link = document.createElement('a');
+      link.className = `plekknop${hier ? ' plekknop--hier' : ''}`;
+      link.href = vanWortel(plek.pad);
+      if (hier) link.setAttribute('aria-current', 'page');
+
+      const img = document.createElement('img');
+      img.src = plaatjePad(plek.icoon);
+      img.alt = '';
+
+      const naam = document.createElement('span');
+      naam.textContent = plek.naam;
+
+      const aantal = document.createElement('span');
+      aantal.className = 'plekknop__aantal';
+      aantal.textContent = telling[plek.id] ?? 0;
+
+      link.append(img, naam, aantal);
+      houder.append(link);
+    }
+  }
+}
+
 zetKnopIconen();
 registreerServiceWorker();
 viewport.opWijziging = teken;
@@ -397,5 +431,6 @@ const telling = await toonKudde();
 // Testhaak, net als bij de spellen: met ?test in de URL kan een script nakijken
 // of de kudde echt rondloopt. Zonder die parameter gebeurt er niets.
 if (new URLSearchParams(location.search).has('test')) {
-  window.__boerderij = { kudde, lus, telling, toonKudde, WEI, VELD, DINO_MAAT };
+  window.__plek = { kudde, lus, telling, toonKudde, WEI, VELD, DINO_MAAT, plek: PLEK };
+}
 }

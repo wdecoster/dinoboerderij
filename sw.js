@@ -4,7 +4,7 @@
 //
 // Nieuwe versie uitrollen = VERSIE hieronder ophogen.
 
-const VERSIE = 'v13';
+const VERSIE = 'v14';
 const CACHE = `leesspel-${VERSIE}`;
 
 // De schil: alles wat nodig is om de hub en de spellen te starten.
@@ -19,6 +19,7 @@ const SCHIL = [
   'js/data/rijmparen.js',
   'js/data/spelwoorden.js',
   'js/data/dinos.js',
+  'js/data/plekken.js',
   'js/data/iconen.js',
   'js/core/pad.js',
   'js/core/ui.js',
@@ -30,6 +31,8 @@ const SCHIL = [
   'js/core/plaatjes.js',
   'js/core/verzameling.js',
   'js/core/vieren.js',
+  'js/core/wijzen.js',
+  'js/core/plekscene.js',
   'js/core/knoppen.js',
   'games/sorteer/',
   'games/sorteer/index.html',
@@ -51,7 +54,10 @@ const SCHIL = [
   'games/voeren/config.js',
   'boerderij/',
   'boerderij/index.html',
-  'boerderij/boerderij.js',
+  'pretpark/',
+  'pretpark/index.html',
+  'zwembad/',
+  'zwembad/index.html',
   'assets/icon-192.png',
   'assets/icon-512.png',
 ];

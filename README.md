@@ -77,8 +77,10 @@ overkant. Ondertussen lopen er monsters rond die je proberen te tikken.
 Wat op een kaartje staat kun je pakken; wat op het gras staat (bergen, bomen,
 rotsen) is een obstakel.
 
-**Bediening: alleen de pijltjestoetsen.** Dit spel werkt dus niet op een telefoon
-of tablet; de andere drie wel.
+**Bediening: tik waar je heen wilt, of loop met de pijltjestoetsen.** Bij een tik
+zoekt hij zelf de weg om de bergen heen; slepen verschuift het doel mee. Wie een
+pijltje indrukt neemt het meteen over — wie zelf stuurt wil niet dat het spel dat
+doet. Alle vier de spellen werken dus op een tablet.
 
 ### Woordbouwer — van klank naar letter
 
@@ -149,15 +151,27 @@ mammoet, dodo) in acht kleuren, dus 72 verschillende beesten. De kleur wordt met
 `hue-rotate` uit hetzelfde plaatje gedraaid en kost dus geen extra bestand. In de
 Woordbouwer lopen de verdiende dino's rond naast het speelveld.
 
-## De boerderij
+## De plekken
 
-`boerderij/` is geen spel maar de plek waar je ziet wat je hebt: alle verdiende
-dino's lopen daar rond over de wei, achter een hek, langs een vijver. Tik er een
-aan en hij zegt hoe hij heet. De knop **lijst** toont dezelfde kudde als
-overzicht met namen en aantallen.
+Er zijn drie plekken waar dino's rondlopen: de **boerderij** (wei, hek, vijver),
+het **pretpark** (reuzenrad, achtbaan, draaimolen) en het **zwembad** (een groot
+bad, parasols, palmbomen). Elke nieuwe dino kiest zelf waar hij heen gaat, en de
+viering vertelt waar dat is.
 
-Er lopen er hoogstens veertig tegelijk in beeld; daarboven wordt het een
-mierenhoop. De teller vertelt hoeveel je er in totaal hebt.
+Dat is niet alleen leuker — één wei liep ook te snel vol. Onderaan elke plek
+staan knoppen naar de andere twee, met hoeveel er daar lopen, zodat je een
+nieuwe dino kunt gaan opzoeken.
+
+Tik een dino aan en hij zegt hoe hij heet. De knop **lijst** toont wie er op die
+plek staan, met namen en aantallen.
+
+Alle drie de plekken draaien op dezelfde scène (`js/core/plekscene.js`); wat ze
+onderscheidt — kleur, decor, water, hek — staat als data in
+`js/data/plekken.js`. Een vierde plek kost dus een paar regels data en geen
+nieuwe code.
+
+Er lopen er hoogstens veertig tegelijk in beeld per plek; daarboven wordt het een
+mierenhoop.
 
 Onderaan het lijstscherm staat **alle dino's wissen**. Dat is een knop voor de
 ouder — na een tijdje uitproberen staat de wei vol — dus hij staat bewust niet
@@ -193,6 +207,7 @@ minuten op.
 | `rijmparen.js` | rijmparen met hun rijmklank (Rijmen) | 26 |
 | `spelwoorden.js` | klankzuivere woorden van 3–7 letters (Woordbouwer, Voeren) | 141 |
 | `dinos.js` | de soorten en kleuren om te verzamelen | 9 × 8 |
+| `plekken.js` | waar de dino's rondlopen, met hun decor | 3 |
 | `iconen.js` | de plaatjes op de knoppen | 11 |
 
 Rijmparen hebben een veld `klank`. Twee paren met dezelfde klank mogen nooit
@@ -255,7 +270,9 @@ werkt hij offline.
 
 ```
 index.html              het menu
-boerderij/              de wei waar je dino's rondlopen
+boerderij/              de wei met hek en vijver
+pretpark/               reuzenrad, achtbaan, draaimolen
+zwembad/                een groot bad met parasols
 js/games.js             het register van spellen
 js/data/                de woordenbanken en de dinosoorten
 js/core/                gedeelde onderdelen (zie hieronder)
@@ -270,7 +287,8 @@ sw.js                   offline kunnen spelen
 
 `js/core/` bevat wat alle spellen delen: `viewport.js` (schermmaat en
 tekenassen), `loop.js` (vaste tijdstap), `input.js` (tikken en links/rechts),
-`toetsen.js` (ingedrukte pijltjes), `storage.js` (onthouden), `plaatjes.js`
+`toetsen.js` (ingedrukte pijltjes), `wijzen.js` (tikken en slepen),
+`plekscene.js` (de plekken waar de dino's lopen), `storage.js` (onthouden), `plaatjes.js`
 (plaatjes vooraf laden), `pad.js` (paden vanaf de site-root), `ui.js` (schermen),
 `knoppen.js` (de icoontjes op de knoppen), `verzameling.js` (de gedeelde kudde)
 en `vieren.js` (het moment waarop je een dino verdient).
