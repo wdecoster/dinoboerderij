@@ -63,13 +63,13 @@ games exist.
   `import.meta.url`. **Always use it for asset/page URLs**: the site is served from
   a subpath (`/dinoboerderij/`) on Pages, and games live two directories deep.
 - `verzameling.js` — the shared dino collection. Single source of truth for what
-  the player has earned; all four games write to it.
+  the player has earned; all five games write to it.
 - `plekscene.js` — one scene renderer for all three places. What differs (colours,
   decor, water, fence) is data in `js/data/plekken.js`, so a fourth place is data,
   not code.
 - `input.js` (discrete left/right taps), `toetsen.js` (held arrow keys) and
   `wijzen.js` (tap/drag destination) are separate on purpose — each game picks its
-  input model. All four games work on touch.
+  input model. All five games work on touch.
 
 **Canvas games letterbox a fixed virtual field** into whatever canvas they get
 (`rijm` and the places use 150×100). Do not assume the CSS gives an exact aspect
@@ -82,10 +82,11 @@ each, but a letter pair with ten words is exhausted in four minutes.
 
 | File | Used by | Size |
 |---|---|---|
-| `woorden.js` | Sorteren (grouped by first letter) | 361 |
+| `woorden.js` | Sorteren, Zoekplaat (grouped by first letter) | 361 |
 | `spelwoorden.js` | Woordbouwer, Voeren (klankzuiver, 3–7 letters) | 141 |
 | `rijmparen.js` | Rijmen (each pair has a `klank`) | 26 |
 | `dinos.js`, `plekken.js`, `iconen.js` | rewards, places, button icons | 9 / 3 / 16 |
+| `verwarrend.js` | confusable letters, for choosing distractors | — |
 
 Every picture is a Twemoji codepoint. **Verify a codepoint exists before adding a
 word** (`https://raw.githubusercontent.com/jdecked/twemoji/main/assets/svg/<cp>.svg`),
