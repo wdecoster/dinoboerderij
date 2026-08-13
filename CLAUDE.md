@@ -97,13 +97,48 @@ will not reliably draw a dimensionless SVG into a canvas) and rewrites
 Unicode CLDR ships official Dutch emoji names — useful for expanding the bank
 without inventing words. Roughly 500 usable candidates remain unmined.
 
-Two content rules that are easy to break:
+### Curation rules
 
-- **Picture ambiguity is the main failure mode.** ⚽ is "bal" or "voetbal"; 🕊️ is
-  usually just "vogel". Words whose picture has a competing Dutch name get
-  `standaard: false`, and every game has a per-picture toggle list for the parent.
-- **Rhyme pairs carry a `klank`** and a level never picks two pairs with the same
-  one — "tand/hand" plus "mand/hand" would give a puzzle with two right answers.
+These are the criteria the existing 361 words were picked by. They are not
+enforced by code, so a plausible-looking addition can quietly break a game.
+
+**The bar for any word: a 7-year-old names that picture, in Dutch, without
+hesitating.** That is stricter than "the picture is recognisable". It rejected
+*pikhouweel*, *veiligheidsvest* and *kassabon* — fine drawings, not words a child
+reaches for.
+
+**A CLDR name describes the emoji, not what it depicts in your context.** `1f9d1`
+is officially "person", not "dokter"; `1fa91` is a chair, not a table. Look at the
+picture before trusting the label.
+
+**Ambiguity is the main failure mode**, and it is worse than a wrong answer —
+the child is right and the game says no. ⚽ is "bal" or "voetbal"; 🕊️ is usually
+just "vogel"; 📦 is often "pakje". Those get `standaard: false` (30 of 361 do)
+and every game has a per-picture toggle list so the parent can switch them on
+once they know what the child actually says.
+
+**One picture, one word.** Two entries sharing a codepoint means the same drawing
+has two right answers. The single existing case (⏰ = `klok` / `wekker`) is
+defused by having `klok` default to off; keep it that way or drop one.
+
+**`spelwoorden.js` is a filter over `woorden.js`, not a second list** (currently a
+subset except `plant`). Two extra constraints apply there, because those games ask
+the child to *spell* or *read* the word rather than name a picture:
+
+- **Klankzuiver** — written as it sounds. This excludes `citroen` (c = /s/),
+  `punaise` (French vowel), `hond` (sounds "hont"), `trein`, and loanwords like
+  `printer` and `paperclip`. All of those are perfectly good in Sorteren, where
+  only the first letter matters.
+- **3–7 letters.** Seven plus three distractors is ten tiles, which wraps to two
+  rows on a tablet — that is the practical ceiling.
+
+**Near-identical words are a feature, not a collision.** `bad`/`bed`, `bom`/`bot`,
+`oog`/`oor`, `hand`/`mand`/`tand` are what Voeren's hardest level (`lijkterop`)
+and Woordbouwer's distractors are built on. When adding words, prefer ones that
+create minimal pairs; there are 27 today.
+
+**Rhyme pairs carry a `klank`** and a level never picks two pairs with the same
+one — "tand/hand" plus "mand/hand" would give a puzzle with two right answers.
 
 ## Testing
 
