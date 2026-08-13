@@ -30,4 +30,11 @@ export const spellen = [
     icoon: '1f34e', // appel
     pad: 'games/voeren/',
   },
+  {
+    id: 'zoek',
+    naam: 'Zoekplaat',
+    uitleg: 'Zoek op de plaat alles met dezelfde letter. Rustig aan, geen klok.',
+    icoon: '1f50d', // vergrootglas
+    pad: 'games/zoek/',
+  },
 ];

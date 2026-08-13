@@ -41,34 +41,9 @@ export function niveauVoor(aantalGoed) {
   return gekozen;
 }
 
-// Letters die op elkaar lijken of hetzelfde klinken. Een afleider die hierin
-// staat is veel meer waard dan een willekeurige letter: bij "bus" een d
-// neerleggen oefent precies waar hij over struikelt.
-export const VERWARREND = {
-  b: ['d', 'p'],
-  d: ['b', 'p'],
-  p: ['q', 'b'],
-  q: ['p', 'g'],
-  m: ['n', 'w'],
-  n: ['m', 'u'],
-  u: ['n', 'v'],
-  v: ['w', 'f'],
-  w: ['v', 'm'],
-  f: ['v'],
-  s: ['z'],
-  z: ['s'],
-  g: ['k', 'q'],
-  k: ['g'],
-  t: ['d'],
-  a: ['e'],
-  e: ['a'],
-  o: ['e'],
-  i: ['j'],
-  j: ['i'],
-};
-
-// Waar afleiders uit komen als er geen verwarrende letter meer over is.
-export const ALFABET = 'abdeghijklmnoprstuvwz'.split('');
+// De tabel met verwarrende letters staat in js/data/verwarrend.js, want de
+// Zoekplaat gebruikt hem ook.
+export { VERWARREND, ALFABET } from '../../js/data/verwarrend.js';
 
 // --- de rondwandelende kudde ----------------------------------------------
 

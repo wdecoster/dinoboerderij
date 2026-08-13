@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-**Dinoboerderij** — four Dutch reading games for children with dyslexia, plus three
+**Dinoboerderij** — five Dutch reading games for children with dyslexia, plus three
 "places" where the dinosaurs they earn walk around. Static site, no build step, no
 framework, no dependencies. Deployed to <https://wdecoster.github.io/dinoboerderij/>.
 
@@ -143,7 +143,7 @@ one — "tand/hand" plus "mand/hand" would give a puzzle with two right answers.
 ## Testing
 
 Add `?test` to a page and it exposes its state: `window.__sorteer`, `__rijm`,
-`__bouw`, `__voeren`, `__plek`. Without the parameter nothing is exposed.
+`__bouw`, `__voeren`, `__zoek`, `__plek`. Without the parameter nothing is exposed.
 
 **`requestAnimationFrame` does not fire in a backgrounded tab**, which is what
 browser automation gives you — so canvas games appear frozen. Drive them with a
@@ -176,7 +176,7 @@ backgrounds the tab and the game pauses itself.
   a reason specific to a child who cannot read yet. Preserve that reasoning.
 - Player-facing state lives in `localStorage` under `leesspel:<ruimte>:<sleutel>`
   via `js/core/storage.js`. Namespaces: `dinos`, `sorteer`, `rijm`, `bouw`,
-  `voeren`. The reset flow distinguishes **progress** (levels, high scores,
+  `voeren`, `zoek`. The reset flow distinguishes **progress** (levels, high scores,
   `goed` counters) from **parent settings** (per-picture toggles, chosen letter
   pair) — never wipe the latter; it is hand-curated work.
 - `leesspel:dinos:verzameling` migrated from `{ "cp|tint": count }` to an array of

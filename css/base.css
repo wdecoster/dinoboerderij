@@ -676,6 +676,109 @@ h2 {
   50% { transform: translateY(-0.4rem); }
 }
 
+/* --- zoekplaat ---------------------------------------------------------- */
+
+.zoek {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* De plaat zelf: plaatjes liggen op procentcoördinaten, dus hij schaalt mee. */
+.plaat {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background: var(--papier);
+}
+
+.ding {
+  position: absolute;
+  transform: translate(-50%, -50%) scale(var(--maat, 1));
+  display: grid;
+  place-items: center;
+  padding: 0.35rem;
+  border: 3px solid transparent;
+  border-radius: 1rem;
+  background: none;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.ding img {
+  width: clamp(2.75rem, 8vw, 4.5rem);
+  height: clamp(2.75rem, 8vw, 4.5rem);
+}
+
+/* gevonden: een groene ring, en hij blijft staan zodat de plaat heel blijft */
+.ding--gevonden {
+  border-color: var(--goed);
+  background: rgba(39, 174, 96, 0.12);
+  animation: dingGevonden 0.4s ease-out;
+}
+
+@keyframes dingGevonden {
+  0% { transform: translate(-50%, -50%) scale(calc(var(--maat, 1) * 1.35)); }
+  100% { transform: translate(-50%, -50%) scale(var(--maat, 1)); }
+}
+
+.ding--mis {
+  border-color: var(--fout);
+  animation: dingMis 0.35s ease-in-out;
+}
+
+@keyframes dingMis {
+  0%, 100% { transform: translate(-50%, -50%) scale(var(--maat, 1)) rotate(0deg); }
+  25% { transform: translate(-50%, -50%) scale(var(--maat, 1)) rotate(-7deg); }
+  75% { transform: translate(-50%, -50%) scale(var(--maat, 1)) rotate(7deg); }
+}
+
+/* het woord van wat hij aantikte, alleen na een misgreep */
+.ding__woord {
+  position: absolute;
+  bottom: -0.9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.1em 0.5em;
+  border-radius: 999px;
+  background: var(--fout);
+  color: var(--papier);
+  font-size: 0.85rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* de balk onderaan met de gezochte letter */
+.zoekbalk {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-top: 3px solid var(--rand);
+  background: var(--creme);
+}
+
+.zoekbalk__vraag {
+  margin: 0;
+  color: var(--inkt-zacht);
+  font-size: 1.05rem;
+}
+
+.zoekbalk__letter {
+  display: grid;
+  place-items: center;
+  min-width: 3rem;
+  padding: 0.1em 0.5em;
+  border: 3px solid var(--inkt);
+  border-radius: 0.9rem;
+  background: var(--papier);
+  font-size: clamp(1.9rem, 6vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
 /* --- de dino-viering --------------------------------------------------- */
 
 /* Ligt over alles heen maar vangt geen tikken: het is een moment, geen scherm

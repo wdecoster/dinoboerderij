@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Zoekplaat — Dinoboerderij</title>
+    <link rel="stylesheet" href="../../css/base.css" />
+    <link rel="manifest" href="../../manifest.webmanifest" />
+    <link rel="icon" href="../../assets/icon-192.png" />
+    <meta name="theme-color" content="#fdf6e3" />
+  </head>
+  <body>
+    <main id="spel" class="zoek" hidden>
+      <div id="plaat" class="plaat"></div>
+
+      <div class="zoekbalk">
+        <p class="zoekbalk__vraag">Zoek alles met de</p>
+        <span id="letter" class="zoekbalk__letter"></span>
+        <div id="pips" class="eipips"></div>
+      </div>
+    </main>
+
+    <button id="pauzeknop" class="knop knop--stil terug" type="button" data-icoon="23f9" hidden>
+      stop
+    </button>
+
+    <!-- startscherm -->
+    <section id="laag-start" class="laag">
+      <h1 class="laag__titel">Zoekplaat</h1>
+      <p class="laag__regel">Zoek op de plaat alles dat met dezelfde letter begint.</p>
+      <p id="voortgang" class="laag__regel laag__hint"></p>
+      <p id="geen-woorden" class="laag__regel" hidden>
+        Er staan te weinig woorden aan om een plaat te vullen.
+      </p>
+      <button id="spelen" class="knop knop--groot" type="button" data-icoon="25b6">Spelen</button>
+      <a class="knop knop--stil" href="../../boerderij/" data-icoon="1f3e1">mijn dino's</a>
+      <button id="woordenknop" class="knop knop--stil" type="button" data-icoon="1f4cb">woorden</button>
+      <a class="knop knop--stil" href="../../index.html" data-icoon="1f3e0">terug naar het menu</a>
+    </section>
+
+    <!-- woordenlijst voor de ouder -->
+    <section id="laag-woorden" class="laag" hidden>
+      <h2 class="laag__titel">Woorden</h2>
+      <p class="laag__regel">
+        Tik een plaatje aan om het uit of aan te zetten. Zet uit wat hij anders noemt.
+      </p>
+      <ul id="woordenlijst" class="woordenlijst"></ul>
+      <button id="woorden-klaar" class="knop" type="button" data-icoon="2705">Klaar</button>
+      <a class="knop knop--stil" href="../../index.html" data-icoon="1f3e0">terug naar het menu</a>
+    </section>
+
+    <script type="module" src="./zoek.js"></script>
+  </body>
+</html>

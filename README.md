@@ -2,7 +2,7 @@
 
 Nederlandse leesspelletjes voor kinderen met dyslexie.
 
-Vier spellen die elk een ander stukje van leren lezen oefenen, met één beloning
+Vijf spellen die elk een ander stukje van leren lezen oefenen, met één beloning
 die ze aan elkaar knoopt: je verdient dino's voor je kudde. Draait in de browser,
 dus op Linux, Windows en Android met dezelfde code. **Geen build-stap, geen
 framework, geen dependencies.** Wat in de map staat, is de site.
@@ -144,9 +144,28 @@ Elke vijf foutloze beurten komt er een dino bij.
 
 Werkt met tikken, dus ook op een tablet.
 
+### Zoekplaat — zoeken zonder klok
+
+Een plaat vol dingen; tik alles aan dat met de gezochte letter begint. Geen klok,
+geen tegenstander, geen manier om te verliezen — je zoekt tot je alles gevonden
+hebt. Het rustige spel van de vijf, en het enige zonder animatielus: de plaat
+staat gewoon stil, wat op een oude tablet scheelt.
+
+De moeilijkheid zit weer in de afleiders. Eerst beginnen die met een duidelijk
+andere letter; vanaf de achtste plaat begint ruim de helft met een letter die op
+de gezochte lijkt. Bij een gezochte **b** liggen er dan ook een deur en een pen,
+en bij een **f** een vork en een veer — zoeken lukt dan pas als je echt kijkt.
+
+Tik je ernaast, dan verschijnt het woord van wat daar ligt, en kun je even niets
+aantikken (oplopend bij doorgokken). Een plaat met een misgreep is gewoon af te
+maken maar telt niet mee, zodat de hele plaat aantikken niets oplevert.
+
+Werkt met tikken en put uit de hele woordenbank van 361 woorden, dus de platen
+raken niet op.
+
 ## De dino's
 
-Alle vier de spellen vullen dezelfde kudde:
+Alle vijf de spellen vullen dezelfde kudde:
 
 | Spel | Wanneer |
 |---|---|
@@ -154,6 +173,7 @@ Alle vier de spellen vullen dezelfde kudde:
 | Rijmen | een veld helemaal uitspelen |
 | Woordbouwer | elke drie woorden die af komen |
 | Dino's voeren | elke vijf keer goed |
+| Zoekplaat | elke drie platen die je foutloos afmaakt |
 
 **Als je er een verdient, zie je hem.** Hij komt groot in beeld, laat zien wie
 hij is, en loopt dan het scherm uit richting de boerderij. Dat is voor een kind
@@ -223,6 +243,7 @@ minuten op.
 | `spelwoorden.js` | klankzuivere woorden van 3–7 letters (Woordbouwer, Voeren) | 141 |
 | `dinos.js` | de soorten en kleuren om te verzamelen | 9 × 8 |
 | `plekken.js` | waar de dino's rondlopen, met hun decor | 3 |
+| `verwarrend.js` | letters die op elkaar lijken, voor de afleiders | — |
 | `iconen.js` | de plaatjes op de knoppen | 11 |
 
 Rijmparen hebben een veld `klank`. Twee paren met dezelfde klank mogen nooit
@@ -295,6 +316,7 @@ games/sorteer/          beginletters sorteren
 games/rijm/             rijmen op een veld met monsters
 games/bouw/             woorden bouwen uit letters
 games/voeren/           een woord lezen en het goede ding geven
+games/zoek/             alles met dezelfde beginletter zoeken
 assets/img/             de plaatjes (Twemoji, zie CREDITS.md)
 tools/                  eenmalige scripts
 sw.js                   offline kunnen spelen
