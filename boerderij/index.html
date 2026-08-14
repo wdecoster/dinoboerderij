@@ -25,12 +25,34 @@
     <section id="laag-lijst" class="laag" hidden>
       <h2 class="laag__titel">Mijn boerderij</h2>
       <p id="lijstregel" class="laag__regel"></p>
+      <p class="laag__regel laag__hint">Tik een dino aan om hem een naam te geven.</p>
       <ul id="dinolijst" class="dinolijst"></ul>
       <button id="lijst-klaar" class="knop" type="button" data-icoon="2705">Klaar</button>
       <a class="knop knop--stil" href="../index.html" data-icoon="1f3e0">terug naar het menu</a>
       <button id="wisknop" class="knop knop--stil knop--gevaar" type="button" data-icoon="1f5d1">
         alle dino's wissen
       </button>
+    </section>
+
+    <!-- een dino een naam geven -->
+    <section id="laag-naam" class="laag" hidden>
+      <h2 class="laag__titel">Hoe heet hij?</h2>
+      <img id="naam-dino" class="naamgever__dino" alt="" />
+      <input
+        id="naam-invoer"
+        class="naamgever__invoer"
+        type="text"
+        maxlength="12"
+        autocomplete="off"
+        autocapitalize="words"
+        spellcheck="false"
+        aria-label="Naam van je dino"
+      />
+      <button id="naam-idee" class="knop knop--stil" type="button" data-icoon="1fa84">
+        verras me
+      </button>
+      <button id="naam-klaar" class="knop knop--groot" type="button" data-icoon="2705">Klaar</button>
+      <p class="laag__regel laag__hint">Laat het leeg om zijn soortnaam terug te krijgen.</p>
     </section>
 
     <!-- eerst even navragen: wissen kan niet ongedaan gemaakt worden -->

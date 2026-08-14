@@ -15,27 +15,69 @@ import { willekeurigePlek, STANDAARD_PLEK, PLEKKEN } from '../data/plekken.js';
 
 const opslag = maakOpslag('dinos');
 
+/** Een kort eigen kenmerk, zodat je een dino kunt aanwijzen om te hernoemen. */
+function nieuwId() {
+  return Math.random().toString(36).slice(2, 10);
+}
+
 /**
- * Alle dino's: [{ cp, tint, plek }].
+ * Alle dino's: [{ id, cp, tint, plek, naam? }].
  *
  * De oude vorm was { "cp|tint": aantal }. Die wordt hier uitgevouwen naar losse
- * beestjes met een willekeurige plek, zodat een bestaande kudde gewoon
- * meeverhuist in plaats van te verdwijnen.
+ * beestjes, zodat een bestaande kudde gewoon meeverhuist in plaats van te
+ * verdwijnen. Dino's van vóór de namen krijgen alsnog een id.
  */
 export function leesVerzameling() {
   const rauw = opslag.lees('verzameling', []);
-  if (Array.isArray(rauw)) return rauw;
+
+  if (Array.isArray(rauw)) {
+    // Ouder dan de namen? Dan hebben ze nog geen id.
+    if (rauw.some((d) => !d.id)) {
+      const metId = rauw.map((d) => (d.id ? d : { ...d, id: nieuwId() }));
+      opslag.schrijf('verzameling', metId);
+      return metId;
+    }
+    return rauw;
+  }
 
   const uitgevouwen = [];
   for (const [sleutel, aantal] of Object.entries(rauw ?? {})) {
     const [cp, tint] = sleutel.split('|');
     for (let i = 0; i < aantal; i++) {
-      uitgevouwen.push({ cp, tint: Number(tint), plek: willekeurigePlek() });
+      uitgevouwen.push({ id: nieuwId(), cp, tint: Number(tint), plek: willekeurigePlek() });
     }
   }
   opslag.schrijf('verzameling', uitgevouwen);
   return uitgevouwen;
 }
+
+/** Hoe heet dit beest? Zonder eigen naam is dat gewoon zijn soort. */
+export function naamVan(dino) {
+  if (dino.naam) return dino.naam;
+  return SOORTEN.find((s) => s.cp === dino.cp)?.naam ?? 'dino';
+}
+
+/** Geeft een dino een naam. Leeg maken zet hem terug op zijn soortnaam. */
+export function noemDino(id, naam) {
+  const verzameling = leesVerzameling();
+  const dino = verzameling.find((d) => d.id === id);
+  if (!dino) return;
+
+  const schoon = naam.trim().slice(0, MAX_NAAM);
+  if (schoon) dino.naam = schoon;
+  else delete dino.naam;
+
+  opslag.schrijf('verzameling', verzameling);
+}
+
+export const MAX_NAAM = 12;
+
+// Voor wie niet wil of kan typen: één tik en hij heeft een naam.
+export const NAAMIDEEEN = [
+  'Rex', 'Bonk', 'Pluk', 'Nootje', 'Snuf', 'Wobbel', 'Tikkie', 'Bram',
+  'Stampie', 'Knabbel', 'Pip', 'Gonzo', 'Loeki', 'Bibi', 'Struik', 'Dender',
+  'Krokus', 'Fien', 'Tom', 'Muppie', 'Zoef', 'Bolle', 'Kiki', 'Reus',
+];
 
 export function aantalDinos() {
   return leesVerzameling().length;
@@ -63,7 +105,7 @@ export function verdienDino() {
   const plek = willekeurigePlek();
 
   const verzameling = leesVerzameling();
-  verzameling.push({ cp: soort.cp, tint, plek });
+  verzameling.push({ id: nieuwId(), cp: soort.cp, tint, plek });
   opslag.schrijf('verzameling', verzameling);
 
   return { soort, tint, plek };
@@ -100,47 +142,58 @@ export function tintFilter(tint) {
 }
 
 /**
- * Vult een <ul> met de verzameling, gegroepeerd op soort en kleur. Geef een
- * plek mee om alleen die plek te tonen.
+ * Vult een <ul> met de verzameling: een kaartje per dino. Geef een plek mee om
+ * alleen die plek te tonen, en `opTik` om de kaartjes aantikbaar te maken.
  */
-export function vulDinolijst(lijst, regel, plaatjePad, plekId = null) {
+export function vulDinolijst(lijst, regel, plaatjePad, plekId = null, opTik = null) {
   const dinos = plekId ? dinosOpPlek(plekId) : leesVerzameling();
 
-  const groepen = new Map();
-  for (const dino of dinos) {
-    const sleutel = `${dino.cp}|${dino.tint}`;
-    groepen.set(sleutel, (groepen.get(sleutel) ?? 0) + 1);
-  }
-
   if (regel) {
-    const soorten = new Set([...groepen.keys()].map((s) => s.split('|')[0])).size;
+    const soorten = new Set(dinos.map((d) => d.cp)).size;
+    const kleuren = new Set(dinos.map((d) => `${d.cp}|${d.tint}`)).size;
     regel.textContent =
       dinos.length === 0
         ? 'Nog geen dino. Speel een spel!'
         : `${dinos.length} ${dinos.length === 1 ? 'dino' : "dino's"} · ` +
           `${soorten} ${soorten === 1 ? 'soort' : 'soorten'} · ` +
-          `${groepen.size} ${groepen.size === 1 ? 'kleur' : 'kleuren'}`;
+          `${kleuren} ${kleuren === 1 ? 'kleur' : 'kleuren'}`;
   }
 
+  // Eén kaartje per beest, niet per soort: je geeft een náám aan een dino, niet
+  // aan een groepje van drie dat toevallig dezelfde kleur heeft.
   lijst.replaceChildren();
-  for (const [sleutel, aantal] of groepen) {
-    const [cp, tint] = sleutel.split('|');
-    const soort = SOORTEN.find((s) => s.cp === cp);
+  for (const dino of dinos) {
+    const soort = SOORTEN.find((s) => s.cp === dino.cp);
     if (!soort) continue;
 
     const item = document.createElement('li');
-    item.className = 'dino';
+    const kaart = document.createElement(opTik ? 'button' : 'div');
+    kaart.className = 'dino';
+    if (opTik) {
+      kaart.type = 'button';
+      kaart.addEventListener('click', () => opTik(dino));
+    }
 
     const img = document.createElement('img');
-    img.src = plaatjePad(cp);
+    img.src = plaatjePad(dino.cp);
     img.alt = '';
-    img.style.filter = tintFilter(tint);
+    img.style.filter = tintFilter(dino.tint);
 
     const naam = document.createElement('span');
     naam.className = 'dino__naam';
-    naam.textContent = aantal > 1 ? `${soort.naam} ×${aantal}` : soort.naam;
+    naam.textContent = naamVan(dino);
 
-    item.append(img, naam);
+    kaart.append(img, naam);
+
+    // Heeft hij een eigen naam, dan staat de soort er klein onder.
+    if (dino.naam) {
+      const soortnaam = document.createElement('span');
+      soortnaam.className = 'dino__soort';
+      soortnaam.textContent = soort.naam;
+      kaart.append(soortnaam);
+    }
+
+    item.append(kaart);
     lijst.append(item);
   }
 }

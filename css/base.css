@@ -1073,9 +1073,51 @@ h2 {
 }
 
 .dino__naam {
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--inkt);
+}
+
+/* De soort staat er klein onder zodra hij een eigen naam heeft. */
+.dino__soort {
+  font-size: 0.7rem;
   color: var(--inkt-zacht);
+}
+
+/* In de lijst zijn de kaartjes knoppen: je tikt er een aan om hem te noemen. */
+button.dino {
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+button.dino:active {
+  transform: translateY(2px);
+}
+
+/* --- een dino een naam geven -------------------------------------------- */
+
+.naamgever__dino {
+  width: clamp(5rem, 20vh, 8rem);
+  height: clamp(5rem, 20vh, 8rem);
+}
+
+.naamgever__invoer {
+  width: min(18rem, 80vw);
+  padding: 0.6rem 1rem;
+  border: 3px solid var(--inkt);
+  border-radius: 1rem;
+  background: var(--papier);
+  color: var(--inkt);
+  font: inherit;
+  font-size: clamp(1.5rem, 6vw, 2.25rem);
+  font-weight: 800;
+  text-align: center;
+}
+
+.naamgever__invoer:focus {
+  outline: 3px solid var(--goed);
+  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {

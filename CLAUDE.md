@@ -180,6 +180,11 @@ backgrounds the tab and the game pauses itself.
   `voeren`, `zoek`. The reset flow distinguishes **progress** (levels, high scores,
   `goed` counters) from **parent settings** (per-picture toggles, chosen letter
   pair) — never wipe the latter; it is hand-curated work.
-- `leesspel:dinos:verzameling` migrated from `{ "cp|tint": count }` to an array of
-  `{ cp, tint, plek }`. `leesVerzameling()` converts old data on read; keep that
-  path working.
+- `leesspel:dinos:verzameling` has migrated twice: from `{ "cp|tint": count }` to
+  an array of individuals, and then gaining an `id` per dino so a single animal
+  can be renamed. Entries are `{ id, cp, tint, plek, naam? }` and
+  `leesVerzameling()` converts both older shapes on read — keep those paths
+  working.
+- Naming a dino is the one place in the app with a free text field. That is
+  deliberate: a name cannot be wrong, so spelling does not matter and nothing is
+  at stake. Do not add free text where an answer can be judged.

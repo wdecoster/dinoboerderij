@@ -198,7 +198,13 @@ staan knoppen naar de andere twee, met hoeveel er daar lopen, zodat je een
 nieuwe dino kunt gaan opzoeken.
 
 Tik een dino aan en hij zegt hoe hij heet. De knop **lijst** toont wie er op die
-plek staan, met namen en aantallen.
+plek staan — één kaartje per beest — en daar kun je ze **een naam geven**: tik
+een dino aan, typ een naam of tik op *verras me*. Daarna heet hij zo, ook als je
+hem in de wei aantikt. Leeg laten geeft hem zijn soortnaam terug.
+
+Namen geven is het enige in de app waar vrij getypt mag worden, en dat kan hier
+juist wél: aan een naam is niets fout, dus spelling doet er niet toe en er valt
+niets te verliezen.
 
 Alle drie de plekken draaien op dezelfde scène (`js/core/plekscene.js`); wat ze
 onderscheidt — kleur, decor, water, hek — staat als data in

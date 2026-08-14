@@ -13,7 +13,16 @@ import { laadPlaatje } from './plaatjes.js';
 import { toonLaag, registreerServiceWorker } from './ui.js';
 import { zetKnopIconen } from './knoppen.js';
 import { vanWortel } from './pad.js';
-import { dinosOpPlek, vulDinolijst, wisVerzameling, wisVoortgang } from './verzameling.js';
+import {
+  dinosOpPlek,
+  vulDinolijst,
+  wisVerzameling,
+  wisVoortgang,
+  noemDino,
+  naamVan,
+  NAAMIDEEEN,
+  tintFilter,
+} from './verzameling.js';
 import { SOORTEN } from '../data/dinos.js';
 import { plekVan, PLEKKEN } from '../data/plekken.js';
 
@@ -62,10 +71,15 @@ const el = {
   wisDinos: document.getElementById('wis-dinos'),
   wisAlles: document.getElementById('wis-alles'),
   wisNee: document.getElementById('wis-nee'),
+  naamDino: document.getElementById('naam-dino'),
+  naamInvoer: document.getElementById('naam-invoer'),
+  naamIdee: document.getElementById('naam-idee'),
+  naamKlaar: document.getElementById('naam-klaar'),
 };
 
 const lagen = {
   lijst: document.getElementById('laag-lijst'),
+  naam: document.getElementById('laag-naam'),
   wissen: document.getElementById('laag-wissen'),
   leeg: document.getElementById('laag-leeg'),
 };
@@ -105,9 +119,10 @@ function bouwKudde() {
     {
       if (kudde.length >= MAX_ZICHTBAAR) break;
       const dino = {
+        id: beest.id,
         cp: beest.cp,
         tint: Number(beest.tint),
-        naam: soort.naam,
+        naam: naamVan(beest),
         x: willekeurig(WEI.links, WEI.rechts),
         y: willekeurig(WEI.boven, WEI.onder),
         snelheid: willekeurig(2.5, 5.5), // eenheden per seconde: rustig aan
@@ -313,9 +328,51 @@ el.doek.addEventListener('pointerdown', (ev) => {
 
 // --- schermen -------------------------------------------------------------
 
-el.lijstknop.addEventListener('click', () => {
-  vulDinolijst(el.dinolijst, el.lijstregel, plaatjePad, PLEK.id);
+function toonLijst() {
+  vulDinolijst(el.dinolijst, el.lijstregel, plaatjePad, PLEK.id, begintNaamgeven);
   toonLaag(lagen, 'lijst');
+}
+
+el.lijstknop.addEventListener('click', toonLijst);
+
+// --- een dino een naam geven ---------------------------------------------
+
+let inNaamgeving = null;
+
+/**
+ * Namen geven is het enige in de app waar je vrij mag typen. Dat kan hier
+ * juist wél: aan een naam is niets fout, dus spelling doet er niet toe en er
+ * valt niets te verliezen. Wie niet wil typen tikt op "verras me".
+ */
+function begintNaamgeven(dino) {
+  inNaamgeving = dino;
+  el.naamDino.src = plaatjePad(dino.cp);
+  el.naamDino.style.filter = tintFilter(dino.tint);
+  el.naamInvoer.value = dino.naam ?? '';
+  toonLaag(lagen, 'naam');
+  el.naamInvoer.focus();
+  el.naamInvoer.select();
+}
+
+function bewaarNaam() {
+  if (!inNaamgeving) return;
+  noemDino(inNaamgeving.id, el.naamInvoer.value);
+  inNaamgeving = null;
+
+  // De kudde loopt al rond; die moet de nieuwe naam ook kennen.
+  bouwKudde();
+  teken();
+  toonLijst();
+}
+
+el.naamIdee.addEventListener('click', () => {
+  el.naamInvoer.value = NAAMIDEEEN[Math.floor(Math.random() * NAAMIDEEEN.length)];
+  el.naamInvoer.focus();
+});
+
+el.naamKlaar.addEventListener('click', bewaarNaam);
+el.naamInvoer.addEventListener('keydown', (ev) => {
+  if (ev.key === 'Enter') bewaarNaam();
 });
 el.lijstKlaar.addEventListener('click', () => toonLaag(lagen, null));
 
